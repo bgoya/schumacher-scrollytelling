@@ -506,7 +506,7 @@ section { position: relative; }
   filter: grayscale(100%); 
   
   /* Opcional: le da una leve transparencia para que se fusione con el fondo negro */
-  opacity: 0.3;
+  opacity: 0.2;
 
   z-index: -1;
 }
@@ -695,6 +695,171 @@ section { position: relative; }
   margin-top: 8px;
 }
 .media-placeholder .icon { font-size: 28px; opacity: 0.5; }
+
+/* Video container */
+.video-container {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  background-color: #000;
+  overflow: hidden;
+  aspect-ratio: 16/9;
+  border-radius: 6px;
+}
+
+video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Control Container Wrapper for smooth hover UI */
+.video-controls, .timeline-container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Timeline Layout */
+.timeline-container {
+  bottom: 50px;
+  padding: 0 15px;
+}
+
+/* Buttons and Flex Layout */
+.video-controls {
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px 10px 15px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+}
+
+.volume-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+#volumeSlider {
+  width: 0px; /* Oculto por defecto */
+  opacity: 0;
+  accent-color: #fff; /* Color del deslizador */
+  cursor: pointer;
+  transition: width 0.2s ease, opacity 0.2s ease;
+  height: 4px;
+}
+
+/* Muestra la barra de volumen cuando pasas el mouse sobre el control de volumen */
+.volume-container:hover #volumeSlider {
+  width: 60px; /* Se expande lateralmente */
+  opacity: 1;
+}
+
+.controls-left, .controls-right {
+  display: flex;
+  gap: 10px;
+}
+
+/* Active Hover State (Handled by JS toggling a class) */
+.video-container.show-controls .video-controls,
+.video-container.show-controls .timeline-container {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Buttons & SVGs Styling */
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button svg {
+  width: 28px;
+  height: 28px;
+  fill: #fff;
+  transition: transform 0.1s ease;
+}
+
+button:hover svg {
+  transform: scale(1.1);
+}
+
+/* Seek Bar Custom Styling */
+#seekBar {
+  width: 100%;
+  cursor: pointer;
+  accent-color: #f00; /* YouTube red slider */
+  margin: 0;
+}
+
+/* Galería 2001 — la zona se traba (sticky) y el scroll vertical mueve las
+   fotos en horizontal; al terminarse, el scroll de la página sigue normal.
+   (no toca .media-placeholder ni ninguna otra clase global) */
+.gallery-2001-zone {
+  position: relative;
+  height: 300vh; /* fallback; se recalcula por JS según la cantidad de fotos */
+  box-sizing: border-box;
+}
+.gallery-2001-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#year-2001 .gallery-2001 {
+  display: block;
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+}
+.gallery-2001-track {
+  display: flex;
+  gap: 10px;
+  height: 100%;
+  will-change: transform;
+  padding-right: 0 !important;
+}
+.gallery-2001-item {
+  flex: 0 0 85%;
+  height: 100%;
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(201,168,76,0.04);
+}
+.gallery-2001-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.gallery-2001-caption {
+  position: absolute;
+  bottom: 8px;
+  right: 12px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: rgba(232,201,108,0.6);
+  background: rgba(10,10,10,0.5);
+  padding: 3px 8px;
+  border-radius: 3px;
+  pointer-events: none;
+}
 
 /* Quote */
 .quote-card {
@@ -1170,6 +1335,12 @@ footer {
   opacity: 0.4;
 }
 
+.divider-grey {
+  height: 1px;
+  background: var(--grey-light);
+  opacity: 0.4;
+}
+
 /* ─── UTILS ─── */
 .fade-in {
   opacity: 0;
@@ -1578,7 +1749,7 @@ footer {
 
 </section>
 
-<div class="divider-red"></div>
+<div class="divider-grey"></div>
 
 <!-- ═══════════════════════════════════════════════════════ -->
 <!-- CHAPTERS                                               -->
@@ -1645,17 +1816,50 @@ footer {
       <div class="content-card">
         <div class="card-label">EL MOMENTO</div>
         <div class="card-title">Suzuka, la revancha</div>
-        <p class="card-text">
+        <p class="card-text" style="padding-bottom: 15px;">
           El Gran Premio de Japón fue el escenario de la consagración. 
           Schumacher cruzó la línea de meta y los mecánicos Ferrari 
           invadieron la pista. El último campeonato de pilotos Ferrari 
           había sido de Jody Scheckter en 1979.
         </p>
-        <!-- ESPACIO PARA FOTO/VIDEO DEL GP DE JAPÓN 2000 -->
-        <div class="media-placeholder">
-          <video class="video-2000" autoplay muted loop playsinline poster="assets/hero-poster.jpg">
+        <!-- ESPACIO PARA VIDEO DEL GP DE JAPÓN 2000 -->
+        <div class="video-container" id="videoContainer">
+          <!-- Added autoplay and muted attributes here -->
+          <video id="customVideo" poster="assets/suzuka-2000-poster.jpg" playsinline autoplay muted loop>
             <source src="assets/2000.mp4" type="video/mp4">
-        </video>
+          </video>
+        
+          <!-- Progress Bar (Timeline) -->
+          <div class="timeline-container">
+            <input type="range" id="seekBar" min="0" max="100" value="0">
+          </div>
+        
+          <!-- Custom Control Panel -->
+          <div class="video-controls" id="videoControls">
+            <div class="controls-left">
+              <button id="vPlayBtn" aria-label="Play">
+                <svg id="playIcon" viewBox="0 0 24 24" style="display:none;"><path d="M8 5v14l11-7z"/></svg>
+                <svg id="pauseIcon" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+              </button>
+            
+              <!-- Contenedor agrupando botón de mute y la barra de volumen -->
+              <div class="volume-container">
+                <button id="muteBtn" aria-label="Mute">
+                  <svg id="volumeUpIcon" viewBox="0 0 24 24" style="display:none;"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                  <svg id="volumeOffIcon" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.21.05-.42.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+                </button>
+
+                <!-- Barra deslizante de volumen (Rango de 0 a 1, empieza en 0 porque el video inicia muteado) -->
+                <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="0">
+              </div>
+            </div>
+          
+            <div class="controls-right">
+              <button id="fullscreenBtn" aria-label="Fullscreen">
+                <svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1673,9 +1877,9 @@ footer {
 
       <div class="content-card quote-card">
         <p class="quote-text">
-          "The most emotional one definitely is Suzuka in 2000 with Ferrari. Twenty-one years with no championship for Ferrari. Four years for myself, fighting to achieve it and finally in 2000, Suzuka, winning an exceptional race to win the great championship."
+          "I can’t describe what happened then. You just can’t put something like that into words. I was so amazingly happy. I didn’t know what to do with all this good fortune. I suddenly felt almost trapped in my car, my Ferrari. It’s as though you are about to burst. It was just such a release! Such a relief!"
         </p>
-        <div class="quote-attr">— MICHAEL SCHUMACHER · Eligiendo el GP de JAPÓN en el 2000 como su carrera más emotiva</div>
+        <div class="quote-attr">- MICHAEL SCHUMACHER</div>
         <!-- NOTA: reemplazar con cita real verificada -->
       </div>
 
@@ -1789,10 +1993,9 @@ footer {
 
       <div class="content-card quote-card">
         <p class="quote-text">
-          "El F2001 era una bestia. Cuando todo funcionaba, el coche 
-          hacía lo que yo le pedía al milímetro. Era perfecta esa unión."
+          "It is competition that grips me. I’ve got enough fire in my belly to keep driving me on."
         </p>
-        <div class="quote-attr">— MICHAEL SCHUMACHER · 2001 (placeholder — verificar cita)</div>
+        <div class="quote-attr">- MICHAEL SCHUMACHER · 2001</div>
       </div>
 
       <div class="content-card curiosity-box">
@@ -1805,12 +2008,30 @@ footer {
       </div>
 
       <!-- ESPACIO PARA VIDEO / FOTO ADICIONAL -->
-      <div class="content-card">
+      <!-- GALERÍA 2001: reemplazar los src por las fotos reales de la temporada.
+           Esta zona se "traba" en pantalla mientras el scroll vertical
+           desplaza las fotos hacia la derecha; al acabarse, el scroll
+           vertical de la página continúa normalmente. -->
+      <div class="gallery-2001-zone" id="gallery2001Zone">
         <div class="card-label">GALERÍA</div>
-        <div class="media-placeholder">
-          <span class="icon">📷</span>
-          <span>GALERÍA DE IMÁGENES 2001</span>
-          <span style="opacity:0.5; font-size:9px">3–4 imágenes de la temporada</span>
+        <div class="gallery-2001-stage">
+          <div class="gallery-2001">
+            <div class="gallery-2001-track" id="gallery2001Track">
+              <div class="gallery-2001-item">
+                <img src="assets/2001-galeria-1.jpg" alt="Schumacher 2001 - Foto 1" loading="lazy">
+              </div>
+              <div class="gallery-2001-item">
+                <img src="assets/2001-galeria-2.jpg" alt="Schumacher 2001 - Foto 2" loading="lazy">
+              </div>
+              <div class="gallery-2001-item">
+                <img src="assets/2001-galeria-3.jpg" alt="Schumacher 2001 - Foto 3" loading="lazy">
+              </div>
+              <div class="gallery-2001-item">
+                <img src="assets/2001-galeria-4.jpg" alt="Schumacher 2001 - Foto 4" loading="lazy">
+              </div>
+            </div>
+            <span class="gallery-2001-caption">GALERÍA 2001</span>
+          </div>
         </div>
       </div>
     </div>
@@ -1913,11 +2134,9 @@ footer {
 
       <div class="content-card quote-card">
         <p class="quote-text">
-          "Igualar a Fangio me llena de orgullo y humildad al mismo tiempo. 
-          Él fue el más grande. Intentar continuar su legado 
-          es algo que nunca imaginé de joven."
+          "Then suddenly, all the pressure is off; you realise you’ve done it – it’s a fantastic moment, all your feelings come spilling out…I can’t really find the right words to describe it."
         </p>
-        <div class="quote-attr">— MICHAEL SCHUMACHER · 2002 (placeholder — verificar cita)</div>
+        <div class="quote-attr">— MICHAEL SCHUMACHER · 2002</div>
       </div>
 
       <div class="content-card curiosity-box">
@@ -2013,11 +2232,9 @@ footer {
 
       <div class="content-card quote-card">
         <p class="quote-text">
-          "Sabíamos que este año sería diferente. El equipo no cedió 
-          ni bajo la mayor presión. Eso me hace más orgulloso 
-          que cualquier dominio."
+          "I’m very happy but I’m also totally drained and exhausted. [...] At the moment, I haven’t got any feelings about the title, only for my team. I’m proud of everything we’ve achieved together."
         </p>
-        <div class="quote-attr">— MICHAEL SCHUMACHER · 2003 (placeholder — verificar cita)</div>
+        <div class="quote-attr">— MICHAEL SCHUMACHER · 2003</div>
       </div>
 
       <div class="content-card curiosity-box">
@@ -2150,11 +2367,9 @@ footer {
 
       <div class="content-card quote-card">
         <p class="quote-text">
-          "No quiero que esto termine. Quiero más. 
-          Cada campeonato se siente diferente. 
-          El séptimo se siente como el primero."
+          "You can’t always be the winner, but in my eyes, I also emerged a winner today by taking the world championship. [...] It means a lot to me to win my seventh title here in Spa-Francorchamps of all places and especially as this is Ferrari’s 700th GP. Quite remarkable really."
         </p>
-        <div class="quote-attr">— MICHAEL SCHUMACHER · 2004 (placeholder — verificar cita)</div>
+        <div class="quote-attr">— MICHAEL SCHUMACHER · 2004</div>
       </div>
 
       <div class="content-card curiosity-box">
@@ -2423,7 +2638,7 @@ footer {
   <div class="footer-col" style="margin-bottom:32px">
     <h4>CRÉDITOS MULTIMEDIA</h4>
     <ul style="list-style:none; display:flex; flex-wrap:wrap; gap:8px 32px;">
-      <li style="font-size:12px; color:var(--grey)">📸 Imágenes: <em>[Getty Images / Red Bull Content Pool / Ferrari Media]</em></li>
+      <li style="font-size:12px; color:var(--grey)">📸 Imágenes: <em><a href="https://www.michael-schumacher.de/en">Página Oficial de Michael Schumacher</a></em></li>
       <li style="font-size:12px; color:var(--grey)">🎬 Videos: <em>[YouTube / archivos propios]</em></li>
       <li style="font-size:12px; color:var(--grey)">🔊 Audio: <em>[Fuente del sonido del motor]</em></li>
       <li style="font-size:12px; color:var(--grey)">🗺 Mapa: <em>[OpenStreetMap / Mapbox / Leaflet.js]</em></li>
@@ -2698,6 +2913,164 @@ window.addEventListener('scroll', () => {
         phraseEl.classList.remove('flash');
       }
     }
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();
+
+// ─── VIDEO CONTAINER ───
+const container = document.getElementById('videoContainer');
+const video = document.getElementById('customVideo');
+const vPlayBtn = document.getElementById('vPlayBtn');
+const muteBtn = document.getElementById('muteBtn');
+const fullscreenBtn = document.getElementById('fullscreenBtn');
+const seekBar = document.getElementById('seekBar');
+const volumeSlider = document.getElementById('volumeSlider');
+
+// Icons
+const playIcon = document.getElementById('playIcon');
+const pauseIcon = document.getElementById('pauseIcon');
+const volumeUpIcon = document.getElementById('volumeUpIcon');
+const volumeOffIcon = document.getElementById('volumeOffIcon');
+
+let timeout;
+
+// --- 1. Play / Pause Functionality ---
+function togglePlay() {
+  if (video.paused) {
+    video.play();
+    playIcon.style.display = 'none';
+    pauseIcon.style.display = 'block';
+  } else {
+    video.pause();
+    playIcon.style.display = 'block';
+    pauseIcon.style.display = 'none';
+  }
+}
+vPlayBtn.addEventListener('click', togglePlay);
+video.addEventListener('click', togglePlay); // Play/pause by clicking video frame
+
+// --- 2. Audio Mute / Unmute y volúmen regulable ---
+
+let lastVolume = 0.5; // Guarda el último volumen antes de mutear (por defecto 50%)
+
+// --- Control manual de volumen (Slider) ---
+volumeSlider.addEventListener('input', (e) => {
+  const volumeValue = e.target.value;
+  video.volume = volumeValue;
+  
+  if (volumeValue == 0) {
+    video.muted = true;
+    volumeUpIcon.style.display = 'none';
+    volumeOffIcon.style.display = 'block';
+  } else {
+    video.muted = false;
+    lastVolume = volumeValue; // Guardamos el nivel actual
+    volumeUpIcon.style.display = 'block';
+    volumeOffIcon.style.display = 'none';
+    unmuteBanner.classList.add('fade-out'); // Oculta el banner de "Click para activar sonido"
+  }
+});
+
+// --- Botón de Mute (Modificado para sincronizarse con el slider) ---
+muteBtn.addEventListener('click', () => {
+  video.muted = !video.muted;
+  
+  if (video.muted) {
+    volumeSlider.value = 0;
+    volumeUpIcon.style.display = 'none';
+    volumeOffIcon.style.display = 'block';
+  } else {
+    // Al desmutear, vuelve al último volumen guardado (o 0.5 si era cero)
+    video.volume = lastVolume == 0 ? 0.5 : lastVolume;
+    volumeSlider.value = video.volume;
+    volumeUpIcon.style.display = 'block';
+    volumeOffIcon.style.display = 'none';
+    unmuteBanner.classList.add('fade-out');
+  }
+});
+
+// --- Actualización en la función handleUnmute ---
+// Asegúrate de actualizar tu función handleUnmute existente para que también suba el slider:
+function handleUnmute() {
+  video.muted = false;
+  video.volume = lastVolume;
+  volumeSlider.value = lastVolume;
+  volumeUpIcon.style.display = 'block';
+  volumeOffIcon.style.display = 'none';
+  unmuteBanner.classList.add('fade-out');
+}
+
+// --- 3. Fullscreen Logic ---
+fullscreenBtn.addEventListener('click', () => {
+  if (!document.fullscreenElement) {
+    container.requestFullscreen().catch(err => {
+      console.error(`Fullscreen error: ${err.message}`);
+    });
+  } else {
+    document.exitFullscreen();
+  }
+});
+
+// --- 4. Timeline Progress Tracking & Seeking ---
+// Update progress bar as video plays
+video.addEventListener('timeupdate', () => {
+  const value = (video.currentTime / video.duration) * 100;
+  seekBar.value = isNaN(value) ? 0 : value;
+});
+
+// Seek video timeline when dragging the slider
+seekBar.addEventListener('input', () => {
+  const time = (seekBar.value / 100) * video.duration;
+  video.currentTime = time;
+});
+
+// --- 5. Smart Inactivity Auto-Hide Mechanism ---
+function showControls() {
+  container.classList.add('show-controls');
+  clearTimeout(timeout);
+  
+  // Only auto-hide if the video is actually playing
+  if (!video.paused) {
+    timeout = setTimeout(() => {
+      container.classList.remove('show-controls');
+    }, 2000); // 2 seconds timeout
+  }
+}
+
+// Event listeners to handle mouse movement and inactivity
+container.addEventListener('mousemove', showControls);
+container.addEventListener('mouseenter', showControls);
+video.addEventListener('play', showControls);
+video.addEventListener('pause', showControls);
+
+container.addEventListener('mouseleave', () => {
+  if (!video.paused) {
+    container.classList.remove('show-controls');
+  }
+});
+
+// ─── GALERÍA 2001: EL SCROLL VERTICAL MUEVE LAS FOTOS EN HORIZONTAL ───
+(function () {
+  const zone  = document.getElementById('gallery2001Zone');
+  const track = document.getElementById('gallery2001Track');
+  if (!zone || !track) return;
+  const items = Array.from(track.children);
+  if (items.length < 2) return;
+
+  // Cuanta más fotos haya, más larga es la zona "trabada" (se recalcula solo)
+  zone.style.height = (100 + (items.length - 1) * 100) + 'vh';
+
+  function update() {
+    const rect = zone.getBoundingClientRect();
+    const total = zone.offsetHeight - window.innerHeight;
+    let p = total > 0 ? (-rect.top) / total : 0;
+    p = Math.max(0, Math.min(1, p));
+
+    const maxTranslate = track.scrollWidth - track.clientWidth;
+    track.style.transform = `translateX(${-p * maxTranslate}px)`;
   }
 
   window.addEventListener('scroll', update, { passive: true });
