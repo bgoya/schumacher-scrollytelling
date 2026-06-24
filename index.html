@@ -1005,9 +1005,89 @@ button:hover svg {
 
 /* ─── VIZ SECTION ─── */
 #visualizations {
-  padding: 100px 80px;
+  padding: 0 80px 100px;
   background: var(--black-mid);
   border-top: 1px solid rgba(201,168,76,0.1);
+  overflow: visible;
+}
+
+.viz-transition {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.viz-transition::before {
+  content: '';
+  position: absolute;
+  inset: 0 -80px;
+  background:
+    linear-gradient(180deg, rgba(10,10,10,0.9), rgba(20,20,20,0.55) 45%, rgba(20,20,20,0.98)),
+    radial-gradient(ellipse at 50% 50%, rgba(204,0,0,0.16), transparent 52%);
+  z-index: -2;
+}
+
+.viz-transition::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(70vw, 760px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--red), var(--gold), transparent);
+  transform: translate(-50%, 72px) scaleX(0);
+  transform-origin: center;
+  opacity: 0;
+  z-index: -1;
+}
+
+.viz-transition.visible::after {
+  animation: vizRuleIn 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards;
+}
+
+.viz-transition-inner {
+  transform: translateY(26px) scale(0.98);
+  opacity: 0;
+}
+
+.viz-transition.visible .viz-transition-inner {
+  animation: vizTitleIn 1.15s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.viz-transition-title {
+  font-family: var(--font-display);
+  font-size: clamp(58px, 11vw, 132px);
+  line-height: 0.88;
+  color: var(--white);
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.viz-transition-title span {
+  color: var(--gold);
+}
+
+.viz-transition-kicker {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--red-bright);
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+
+@keyframes vizTitleIn {
+  0% { opacity: 0; transform: translateY(34px) scale(0.96); filter: blur(8px); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+@keyframes vizRuleIn {
+  0% { opacity: 0; transform: translate(-50%, 72px) scaleX(0); }
+  100% { opacity: 1; transform: translate(-50%, 72px) scaleX(1); }
 }
 
 .viz-grid {
@@ -1093,23 +1173,6 @@ button:hover svg {
 .line-chart-wrap { position: relative; height: 160px; }
 .line-chart-svg { width: 100%; height: 100%; }
 
-/* Chart race placeholder */
-.chart-race-placeholder {
-  height: 200px;
-  border: 1px dashed rgba(201,168,76,0.2);
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  color: rgba(201,168,76,0.3);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 2px;
-  flex-direction: column;
-}
-.chart-race-placeholder .icon { font-size: 36px; opacity: 0.4; }
-
 /* ─── GOAT SECTION ─── */
 #goat {
   padding: 120px 80px;
@@ -1126,8 +1189,6 @@ button:hover svg {
 }
 
 .goat-header { text-align: center; margin-bottom: 80px; position: relative; z-index: 1; }
-
-.goat-crown { font-size: 64px; margin-bottom: 16px; }
 
 .goat-title {
   font-family: var(--font-display);
@@ -1650,6 +1711,528 @@ footer {
   height: 100% !important;
   min-height: 520px !important;
   display: block;
+}
+
+/* ─── FIX ESPECÍFICO: gráfico de victorias (evita que se corte el eje X) ─── */
+.viz-card.chart-victorias {
+  min-height: 590px !important;
+  padding: 28px 28px 64px !important;
+  overflow: visible !important;
+}
+
+.viz-card.chart-victorias .flourish-embed {
+  width: 100% !important;
+  height: 500px !important;
+  min-height: 500px !important;
+  flex: none !important;
+  overflow: visible !important;
+}
+
+.viz-card.chart-victorias .flourish-embed iframe {
+  width: 100% !important;
+  height: 500px !important;
+  min-height: 500px !important;
+  display: block !important;
+}
+
+@media (max-width: 900px) {
+  .viz-card.chart-victorias {
+    min-height: 520px !important;
+    padding-bottom: 56px !important;
+  }
+
+  .viz-card.chart-victorias .flourish-embed,
+  .viz-card.chart-victorias .flourish-embed iframe {
+    height: 440px !important;
+    min-height: 440px !important;
+  }
+}
+
+/* ══════════════════ MAPA ANIMADO SCHUMACHER ══════════════════ */
+.schumi-map-card {
+  padding: 0;
+  overflow: visible;
+  background:
+    radial-gradient(ellipse at 78% 28%, rgba(204,0,0,0.12), transparent 46%),
+    linear-gradient(180deg, rgba(28,28,28,0.98), rgba(10,10,10,0.99));
+  border-color: rgba(201,168,76,0.16);
+}
+
+.schumi-map-scroll {
+  position: relative;
+  height: 440vh;
+}
+
+.schumi-map-stage {
+  position: sticky;
+  top: 0;
+  min-height: 660px;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(280px, 350px) minmax(0, 1fr);
+  align-items: stretch;
+  gap: 24px;
+  padding: 34px;
+  overflow: hidden;
+}
+
+.schumi-map-info {
+  align-self: center;
+  position: relative;
+  z-index: 4;
+  border-radius: 6px;
+  border: 1px solid rgba(201,168,76,0.18);
+  border-left: 3px solid var(--red);
+  background: rgba(10,10,10,0.82);
+  box-shadow: 0 22px 70px rgba(0,0,0,0.45);
+  backdrop-filter: blur(12px);
+  padding: 24px;
+}
+
+.schumi-map-kicker {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: var(--red-bright);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.schumi-map-title {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 4.6vw, 62px);
+  line-height: 0.92;
+  color: var(--white);
+  margin-bottom: 14px;
+}
+
+.schumi-map-title span { color: var(--gold); }
+
+.schumi-map-gp {
+  font-family: var(--font-display);
+  font-size: 28px;
+  line-height: 1;
+  color: var(--white);
+  margin-bottom: 4px;
+}
+
+.schumi-map-circuit {
+  min-height: 28px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.45;
+  letter-spacing: 1.4px;
+  color: var(--grey-light);
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+
+.schumi-map-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 18px 0;
+}
+
+.schumi-map-stat {
+  min-width: 0;
+  background: rgba(255,255,255,0.035);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 4px;
+  padding: 12px;
+}
+
+.schumi-map-stat b {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 34px;
+  line-height: 1;
+  color: var(--gold);
+}
+
+.schumi-map-stat small {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1.2px;
+  color: var(--grey);
+  text-transform: uppercase;
+}
+
+.schumi-map-years {
+  min-height: 66px;
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--grey-light);
+  font-weight: 300;
+}
+
+.schumi-map-years strong {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.schumi-map-progress {
+  height: 3px;
+  margin-top: 22px;
+  overflow: hidden;
+  border-radius: 99px;
+  background: rgba(255,255,255,0.08);
+}
+
+.schumi-map-progress span {
+  display: block;
+  width: 0%;
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--red), var(--gold));
+}
+
+.schumi-map-wrap {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.07);
+  background:
+    radial-gradient(ellipse at 52% 45%, rgba(255,255,255,0.09), transparent 50%),
+    linear-gradient(180deg, #171717, #0f0f0f 72%, #0a0a0a);
+}
+
+.schumi-map-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(10,10,10,0.62), transparent 18%, transparent 78%, rgba(10,10,10,0.6)),
+    radial-gradient(ellipse at center, transparent 42%, rgba(0,0,0,0.44));
+}
+
+.schumi-map-svg {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  min-height: 560px;
+  display: block;
+}
+
+.schumi-map-camera {
+  transform-origin: 0 0;
+  transform-box: fill-box;
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.schumi-map-graticule line {
+  stroke: rgba(242,242,242,0.065);
+  stroke-width: 0.8;
+}
+
+.schumi-map-land {
+  fill: #686868;
+  opacity: 0.58;
+  stroke: rgba(242,242,242,0.1);
+  stroke-width: 0.65;
+}
+
+.schumi-map-land.is-secondary {
+  opacity: 0.4;
+}
+
+.schumi-map-trail {
+  fill: none;
+  stroke: rgba(255,24,1,0.55);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 6px rgba(255,24,1,0.35));
+}
+
+.schumi-win-dot,
+.schumi-win-halo {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.schumi-win-dot {
+  opacity: 0;
+  fill: var(--red);
+  stroke: rgba(242,242,242,0.9);
+  stroke-width: 1.3;
+  filter: drop-shadow(0 0 7px rgba(255,24,1,0.75));
+  transition: opacity 0.35s ease, fill 0.35s ease, r 0.35s ease;
+}
+
+.schumi-win-dot.visible { opacity: 1; }
+.schumi-win-dot.active { fill: var(--red-bright); }
+
+.schumi-win-halo {
+  opacity: 0;
+  fill: none;
+  stroke: var(--red-bright);
+  stroke-width: 1.4;
+}
+
+.schumi-win-halo.active {
+  opacity: 1;
+  animation: schumiMapPulse 1.4s ease-out infinite;
+}
+
+@keyframes schumiMapPulse {
+  0% { r: 5; opacity: 0.95; }
+  100% { r: 34; opacity: 0; }
+}
+
+.schumi-map-label {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.schumi-map-label.visible { opacity: 1; }
+
+.schumi-map-label rect {
+  fill: rgba(10,10,10,0.78);
+  stroke: rgba(201,168,76,0.24);
+  stroke-width: 0.8;
+  rx: 3;
+}
+
+.schumi-map-label text {
+  fill: var(--white);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.5px;
+}
+
+.schumi-map-counter,
+.schumi-map-caption,
+.schumi-map-legend {
+  position: absolute;
+  z-index: 3;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+}
+
+.schumi-map-counter {
+  top: 16px;
+  right: 18px;
+  padding: 8px 10px;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(10,10,10,0.58);
+  color: var(--grey-light);
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.schumi-map-counter b { color: var(--gold); }
+
+.schumi-map-caption {
+  right: 18px;
+  bottom: 14px;
+  color: rgba(186,186,186,0.68);
+  font-size: 9px;
+  letter-spacing: 1.3px;
+}
+
+.schumi-map-legend {
+  left: 18px;
+  bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(186,186,186,0.72);
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+.schumi-map-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.schumi-map-legend i {
+  display: block;
+  border-radius: 999px;
+  background: var(--red);
+  border: 1px solid rgba(242,242,242,0.82);
+  box-shadow: 0 0 9px rgba(255,24,1,0.58);
+}
+
+.schumi-map-legend .small-dot { width: 7px; height: 7px; }
+.schumi-map-legend .big-dot { width: 13px; height: 13px; }
+
+@media (max-width: 900px) {
+  .schumi-map-scroll { height: 390vh; }
+  .schumi-map-stage {
+    grid-template-columns: 1fr;
+    min-height: 100vh;
+    padding: 22px;
+  }
+  .schumi-map-info {
+    order: 2;
+    align-self: end;
+    padding: 18px;
+  }
+  .schumi-map-wrap { min-height: 56vh; }
+  .schumi-map-svg { min-height: 56vh; }
+  .schumi-map-title { font-size: 38px; }
+  .schumi-map-gp { font-size: 23px; }
+  .schumi-map-years { min-height: auto; }
+  .schumi-map-legend {
+    left: 14px;
+    right: 14px;
+    bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .schumi-map-caption { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .schumi-map-camera,
+  .schumi-win-dot,
+  .schumi-map-label {
+    transition: none;
+  }
+  .schumi-win-halo.active {
+    animation: none;
+  }
+}
+
+/* Ajuste final del mapa: base detallada, puntos iguales y texto editorial */
+.schumi-map-card {
+  background: #050505;
+  border-color: rgba(201,168,76,0.14);
+}
+
+.schumi-map-stage {
+  grid-template-columns: minmax(270px, 330px) minmax(0, 1fr);
+  gap: 28px;
+}
+
+.schumi-map-info {
+  background: linear-gradient(180deg, rgba(10,10,10,0.9), rgba(10,10,10,0.72));
+  border: 0;
+  border-left: 3px solid var(--red);
+  box-shadow: none;
+  backdrop-filter: blur(8px);
+}
+
+.schumi-map-title {
+  margin-bottom: 22px;
+}
+
+.schumi-map-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.schumi-map-info.is-intro .schumi-map-copy {
+  display: none;
+}
+
+.schumi-map-info.is-final .schumi-map-line.is-race-only {
+  display: none;
+}
+
+.schumi-map-line {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-bottom: 13px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.schumi-map-line:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.schumi-map-line span {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--red-bright);
+  text-transform: uppercase;
+}
+
+.schumi-map-line strong {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2.7vw, 34px);
+  line-height: 0.98;
+  color: var(--white);
+  font-weight: 400;
+}
+
+.schumi-map-line em {
+  font-style: normal;
+  color: var(--gold);
+}
+
+.schumi-map-years {
+  min-height: 0;
+}
+
+.schumi-map-progress {
+  margin-top: 26px;
+}
+
+.schumi-map-wrap {
+  background: #000;
+  border-color: rgba(255,255,255,0.09);
+}
+
+.schumi-map-wrap::after {
+  background:
+    linear-gradient(90deg, rgba(0,0,0,0.52), transparent 14%, transparent 82%, rgba(0,0,0,0.5)),
+    radial-gradient(ellipse at center, transparent 52%, rgba(0,0,0,0.34));
+}
+
+.schumi-map-svg {
+  min-height: 560px;
+}
+
+.schumi-map-image {
+  opacity: 0.92;
+  filter: contrast(1.08) brightness(0.9);
+}
+
+.schumi-win-dot {
+  fill: var(--red-bright);
+  stroke: var(--white);
+  stroke-width: 2.2;
+  filter: drop-shadow(0 0 9px rgba(255,24,1,0.9));
+}
+
+.schumi-win-dot.active {
+  fill: var(--red-bright);
+}
+
+.schumi-map-caption {
+  color: rgba(242,242,242,0.72);
+}
+
+@media (max-width: 900px) {
+  #visualizations { padding: 0 24px 70px; }
+  .viz-transition::before { inset: 0 -24px; }
+  .viz-transition-title { font-size: clamp(52px, 17vw, 82px); }
+  .schumi-map-stage {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 20px;
+  }
+  .schumi-map-info {
+    order: 2;
+    padding: 18px;
+  }
+  .schumi-map-wrap { min-height: 48vh; }
+  .schumi-map-svg { min-height: 48vh; }
+  .schumi-map-line strong { font-size: 24px; }
 }
 
 </style>
@@ -2259,8 +2842,6 @@ footer {
           El campeonato se definió en la última carrera del año. 
           La tensión narrativa fue la más intensa del período 2000–2004.
         </p>
-        <!-- ESPACIO PARA GRÁFICO DE LÍNEAS CON EVOLUCIÓN DE PUNTOS -->
-        <div class="flourish-embed flourish-bar-chart-race" data-src="visualisation/29384278"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/29384278/thumbnail" width="100%" alt="bar-chart-race visualization" /></noscript></div>
       </div>
 
       <div class="content-card">
@@ -2441,15 +3022,17 @@ footer {
 <!-- VISUALIZACIONES                                         -->
 <!-- ═══════════════════════════════════════════════════════ -->
 <section id="visualizations">
-  <div class="fade-in" style="max-width:1200px; margin:0 auto;">
-    <div class="section-eyebrow">DATOS Y VISUALIZACIONES</div>
-    <h2 class="section-title">El dominio en perspectiva</h2>
+  <div class="viz-transition fade-in" id="vizTransition">
+    <div class="viz-transition-inner">
+      <div class="viz-transition-kicker">DATOS Y VISUALIZACIONES</div>
+      <h2 class="viz-transition-title">El dominio <br><span>en perspectiva</span></h2>
+    </div>
   </div>
 
   <div class="viz-grid" style="max-width:1200px; margin:0 auto;">
     
     <!-- Victorias por año -->
-    <div class="viz-card fade-in chart-full-height">
+    <div class="viz-card fade-in chart-full-height chart-victorias">
       <div class="flourish-embed flourish-chart" data-src="visualisation/29363176"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/29363176/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
     </div>
 
@@ -2458,22 +3041,49 @@ footer {
       <div class="flourish-embed flourish-chart" data-src="visualisation/29383749"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/29383749/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
     </div>
 
-    <!-- Mapamundi placeholder -->
-    <div class="viz-card full fade-in">
-      <div class="flourish-embed flourish-map" data-src="visualisation/29385465"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/29385465/thumbnail" width="100%" alt="map visualization" /></noscript></div>
-    </div>
+    <!-- Mapa animado: reemplaza el embed de Flourish -->
+    <div class="viz-card full schumi-map-card">
+      <div class="schumi-map-scroll" id="schumiMapScroll">
+        <div class="schumi-map-stage">
+          <aside class="schumi-map-info is-intro">
+            <div class="schumi-map-kicker">GEOGRAFÍA DEL DOMINIO</div>
+            <div class="schumi-map-title">Dónde ganó <span>Schumacher</span></div>
+            <div class="schumi-map-copy">
+              <div class="schumi-map-line is-race-only">
+                <span>Gran Premio</span>
+                <strong id="mapGpName">Todos los grandes premios</strong>
+              </div>
+              <div class="schumi-map-line is-race-only">
+                <span>Circuito</span>
+                <strong id="mapCircuitName">2000-2004</strong>
+              </div>
+              <div class="schumi-map-line" id="mapCountryLine">
+                <span id="mapCountryLabel">País</span>
+                <strong id="mapCountryName">17 sedes</strong>
+              </div>
+              <div class="schumi-map-line">
+                <span id="mapWinsLabelText">Veces que la ganó</span>
+                <strong id="mapWinsText">50 victorias</strong>
+              </div>
+              <div class="schumi-map-line is-race-only">
+                <span>Años</span>
+                <strong id="mapYearsText">2000-2004</strong>
+              </div>
+            </div>
+            <div class="schumi-map-progress"><span id="mapProgressFill"></span></div>
+          </aside>
 
-    <!-- Chart race placeholder -->
-    <div class="viz-card full fade-in">
-      <div class="viz-label">ANIMACIÓN COMPETITIVA</div>
-      <div class="viz-title">Chart Race: Campeonatos acumulados</div>
-      <div class="chart-race-placeholder">
-        <span class="icon">🏎</span>
-        <span>CHART RACE ANIMADO</span>
-        <span style="opacity:0.5; font-size:9px; text-align:center; max-width:400px">
-          Completar con D3.js o Flourish embed.<br>
-          Mostrar acumulación de victorias/puntos carrera a carrera con autitos animados.
-        </span>
+          <div class="schumi-map-wrap">
+            <div class="schumi-map-counter"><b id="mapStepNow">0</b> / <span id="mapStepTotal">17</span> puntos revelados</div>
+            <svg class="schumi-map-svg" viewBox="0 0 1580 842" role="img" aria-label="Mapa animado con los Grandes Premios ganados por Michael Schumacher entre 2000 y 2004">
+              <g class="schumi-map-camera" id="schumiMapCamera">
+                <image class="schumi-map-image" href="schumi_world_map_reference.png" x="0" y="0" width="1580" height="842" preserveAspectRatio="xMidYMid meet"></image>
+                <g id="schumiMapPoints"></g>
+              </g>
+            </svg>
+            <div class="schumi-map-caption">Mapa gris · puntos rojos = GP ganados</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -2489,7 +3099,6 @@ footer {
   <div class="goat-bg"></div>
 
   <div class="goat-header fade-in">
-    <div class="goat-crown">👑</div>
     <h2 class="goat-title">¿El <span class="accent">GOAT</span>?</h2>
     <div class="goat-sub">EL LEGADO DE UNA DINASTÍA · 2000–2004</div>
   </div>
@@ -3090,6 +3699,195 @@ container.addEventListener('mouseleave', () => {
   window.addEventListener('scroll', update, { passive: true });
   window.addEventListener('resize', update);
   update();
+})();
+
+// ═══════════════ MAPA ANIMADO: VICTORIAS DE SCHUMACHER 2000-2004 ═══════════════
+(function () {
+  const scroll = document.getElementById('schumiMapScroll');
+  const camera = document.getElementById('schumiMapCamera');
+  const pointsLayer = document.getElementById('schumiMapPoints');
+  const infoPanel = document.querySelector('.schumi-map-info');
+
+  if (!scroll || !camera || !pointsLayer) return;
+
+  const races = [
+    { nombre: 'Australia', codigo: 'AUS', gp: 'GP de Australia', circuito: 'Albert Park', victorias: 4, anios: ['2000', '2001', '2002', '2004'], lat: -37.8497, lon: 144.968 },
+    { nombre: 'Malasia', codigo: 'MYS', gp: 'GP de Malasia', circuito: 'Sepang', victorias: 4, anios: ['2000', '2001', '2002', '2004'], lat: 2.76083, lon: 101.738 },
+    { nombre: 'Baréin', codigo: 'BHR', gp: 'GP de Baréin', circuito: 'Sakhir', victorias: 1, anios: ['2004'], lat: 26.0325, lon: 50.5106 },
+    { nombre: 'Italia', codigo: 'ITA', gp: 'GP de San Marino', circuito: 'Imola', victorias: 3, anios: ['2000', '2002', '2003'], lat: 44.3439, lon: 11.7167 },
+    { nombre: 'España', codigo: 'ESP', gp: 'GP de España', circuito: 'Barcelona', victorias: 3, anios: ['2001', '2002', '2003'], lat: 41.57, lon: 2.26111 },
+    { nombre: 'Mónaco', codigo: 'MCO', gp: 'GP de Mónaco', circuito: 'Monte Carlo', victorias: 2, anios: ['2001', '2004'], lat: 43.7347, lon: 7.42056 },
+    { nombre: 'Austria', codigo: 'AUT', gp: 'GP de Austria', circuito: 'A1 Ring', victorias: 2, anios: ['2000', '2002'], lat: 47.2197, lon: 14.7647 },
+    { nombre: 'Canadá', codigo: 'CAN', gp: 'GP de Canadá', circuito: 'Gilles Villeneuve', victorias: 2, anios: ['2000', '2004'], lat: 45.5, lon: -73.5228 },
+    { nombre: 'Francia', codigo: 'FRA', gp: 'GP de Francia', circuito: 'Magny-Cours', victorias: 3, anios: ['2001', '2002', '2004'], lat: 46.8642, lon: 3.16361 },
+    { nombre: 'Reino Unido', codigo: 'GBR', gp: 'GP de Gran Bretaña', circuito: 'Silverstone', victorias: 2, anios: ['2002', '2004'], lat: 52.0786, lon: -1.01694 },
+    { nombre: 'Alemania', codigo: 'DEU', gp: 'GP de Alemania', circuito: 'Hockenheim', victorias: 3, anios: ['2000', '2002', '2004'], lat: 49.3278, lon: 8.56583 },
+    { nombre: 'Hungría', codigo: 'HUN', gp: 'GP de Hungría', circuito: 'Hungaroring', victorias: 4, anios: ['2000', '2001', '2002', '2004'], lat: 47.5789, lon: 19.2486 },
+    { nombre: 'Bélgica', codigo: 'BEL', gp: 'GP de Bélgica', circuito: 'Spa-Francorchamps', victorias: 4, anios: ['2000', '2001', '2002', '2004'], lat: 50.4372, lon: 5.97139 },
+    { nombre: 'Estados Unidos', codigo: 'USA', gp: 'GP de Estados Unidos', circuito: 'Indianapolis', victorias: 3, anios: ['2000', '2003', '2004'], lat: 39.795, lon: -86.2347 },
+    { nombre: 'Japón', codigo: 'JPN', gp: 'GP de Japón', circuito: 'Suzuka', victorias: 5, anios: ['2000', '2001', '2002', '2003', '2004'], lat: 34.8431, lon: 136.541 },
+    { nombre: 'Brasil', codigo: 'BRA', gp: 'GP de Brasil', circuito: 'Interlagos', victorias: 2, anios: ['2000', '2002'], lat: -23.7036, lon: -46.6997 },
+    { nombre: 'Italia', codigo: 'ITA', gp: 'GP de Italia', circuito: 'Monza', victorias: 3, anios: ['2000', '2003', '2004'], lat: 45.6156, lon: 9.28111 }
+  ];
+
+  const W = 1580;
+  const H = 842;
+  const totalWins = races.reduce((acc, d) => acc + d.victorias, 0);
+  const totalCountries = races.length;
+  // Coordenadas calibradas sobre la imagen base del mapa (1580x842).
+  const calibratedPoints = {
+    'Albert Park': [1352.42, 660.33],
+    'Sepang': [1218.93, 422.28],
+    'Sakhir': [986.96, 283.26],
+    'Imola': [821.11, 184.70],
+    'Barcelona': [784.97, 198.54],
+    'Monte Carlo': [804.43, 187.61],
+    'A1 Ring': [831.66, 170.50],
+    'Gilles Villeneuve': [499.34, 170.50],
+    'Magny-Cours': [788.07, 172.40],
+    'Silverstone': [772.52, 147.85],
+    'Hockenheim': [808.52, 160.82],
+    'Hungaroring': [848.36, 168.80],
+    'Spa-Francorchamps': [798.15, 155.36],
+    'Indianapolis': [436.80, 207.57],
+    'Suzuka': [1326.78, 234.00],
+    'Interlagos': [579.74, 581.60],
+    'Monza': [811.43, 178.44]
+  };
+
+  const gpName = document.getElementById('mapGpName');
+  const circuitName = document.getElementById('mapCircuitName');
+  const countryLabel = document.getElementById('mapCountryLabel');
+  const countryName = document.getElementById('mapCountryName');
+  const winsLabelText = document.getElementById('mapWinsLabelText');
+  const winsText = document.getElementById('mapWinsText');
+  const yearsText = document.getElementById('mapYearsText');
+  const progressFill = document.getElementById('mapProgressFill');
+  const stepNow = document.getElementById('mapStepNow');
+  const stepTotal = document.getElementById('mapStepTotal');
+
+  function make(tag, attrs) {
+    const node = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    Object.entries(attrs || {}).forEach(([key, value]) => node.setAttribute(key, value));
+    return node;
+  }
+
+  function pointForRace(d) {
+    const point = calibratedPoints[d.circuito];
+    if (point) return point;
+    return [W / 2, H / 2];
+  }
+
+  function formatYears(years) {
+    if (years.length <= 1) return years[0] || '';
+    return `${years.slice(0, -1).join(', ')} y ${years[years.length - 1]}`;
+  }
+
+  function winsPhrase(wins) {
+    return wins === 1 ? '1 vez' : `${wins} veces`;
+  }
+
+  const pointNodes = races.map((d) => {
+    const [x, y] = pointForRace(d);
+    d.x = x;
+    d.y = y;
+
+    const group = make('g', { class: 'schumi-point-group' });
+    const halo = make('circle', { class: 'schumi-win-halo', cx: x, cy: y, r: 7 });
+    const dot = make('circle', { class: 'schumi-win-dot', cx: x, cy: y, r: 7 });
+
+    group.appendChild(halo);
+    group.appendChild(dot);
+    pointsLayer.appendChild(group);
+
+    return { data: d, dot, halo };
+  });
+
+  if (stepTotal) stepTotal.textContent = races.length;
+
+  let currentIdx = -99;
+  let currentMode = '';
+
+  function setPanelState(state) {
+    if (!infoPanel) return;
+    infoPanel.classList.toggle('is-intro', state === 'intro');
+    infoPanel.classList.toggle('is-final', state === 'final');
+  }
+
+  function writeIntro() {
+    setPanelState('intro');
+  }
+
+  function writeRace(d) {
+    setPanelState('race');
+    if (gpName) gpName.textContent = d.gp;
+    if (circuitName) circuitName.textContent = d.circuito;
+    if (countryLabel) countryLabel.textContent = 'País';
+    if (countryName) countryName.textContent = d.nombre;
+    if (winsLabelText) winsLabelText.textContent = 'Veces que la ganó';
+    if (winsText) winsText.textContent = winsPhrase(d.victorias);
+    if (yearsText) yearsText.textContent = formatYears(d.anios);
+  }
+
+  function writeFinal() {
+    setPanelState('final');
+    if (countryLabel) countryLabel.textContent = 'Países donde ganó';
+    if (countryName) countryName.textContent = `${totalCountries} países`;
+    if (winsLabelText) winsLabelText.textContent = 'Victorias totales';
+    if (winsText) winsText.textContent = `${totalWins} victorias`;
+  }
+
+  function update() {
+    const rect = scroll.getBoundingClientRect();
+    const total = scroll.offsetHeight - window.innerHeight;
+    let p = total > 0 ? (-rect.top) / total : 0;
+    p = Math.max(0, Math.min(1, p));
+
+    const eased = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+    const raw = eased * (races.length + 1.6);
+    const idx = Math.min(races.length - 1, Math.max(-1, Math.floor(raw) - 1));
+    const endMode = p > 0.92;
+    const revealedCount = endMode ? races.length : Math.max(0, idx + 1);
+
+    pointNodes.forEach((node, i) => {
+      const visible = i < revealedCount;
+      const active = !endMode && i === idx;
+      node.dot.classList.toggle('visible', visible);
+      node.dot.classList.toggle('active', active);
+      node.halo.classList.toggle('active', active);
+    });
+
+    if (progressFill) progressFill.style.width = `${(p * 100).toFixed(1)}%`;
+    if (stepNow) stepNow.textContent = revealedCount;
+
+    const mode = endMode ? 'final' : (idx < 0 ? 'intro' : 'race');
+    if (idx !== currentIdx || mode !== currentMode) {
+      currentIdx = idx;
+      currentMode = mode;
+      if (mode === 'final') writeFinal();
+      else if (idx < 0) writeIntro();
+      else writeRace(races[idx]);
+    }
+
+    if (idx >= 0 && !endMode) {
+      const d = races[idx];
+      const scale = window.innerWidth < 900 ? 2.0 : 2.6;
+      const tx = W / 2 - d.x * scale;
+      const ty = H / 2 - d.y * scale;
+      camera.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
+    } else {
+      camera.style.transform = 'translate(0px, 0px) scale(1)';
+    }
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  window.addEventListener('load', update);
+  writeIntro();
+  update();
+  requestAnimationFrame(update);
+  window.setTimeout(update, 250);
+  window.setTimeout(update, 800);
 })();
 
 </script>
