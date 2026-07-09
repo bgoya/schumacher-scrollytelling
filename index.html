@@ -238,7 +238,7 @@ body {
   z-index: 3;
 }
 
-.hero-content { position: relative; z-index: 3; max-width: 1000px; }
+.hero-content { position: relative; z-index: 3; max-width: 1000px; margin: 0 auto; text-align: center; }
 
 .hero-eyebrow {
   font-family: var(--font-mono);
@@ -286,11 +286,11 @@ body {
 .hero-subtitle .red { color: var(--red); }
 
 .hero-desc {
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1.7;
   color: var(--grey-light);
   max-width: 740px;
-  margin-bottom: 32px;
+  margin: 0 auto 32px;
   font-weight: 300;
 }
 
@@ -298,6 +298,7 @@ body {
   display: flex;
   gap: 210px;
   margin-bottom: 0;
+  justify-content: center;
 }
 .metric {
   display: flex;
@@ -473,6 +474,10 @@ section { position: relative; }
 /* ─── CHAPTER WRAPPER ─── */
 #chapters { background: var(--black); }
 
+.empty {
+  padding-bottom: 800px;
+}
+
 /* ─── STICKY YEAR CHAPTER ─── */
 .chapter {
   display: grid;
@@ -528,28 +533,26 @@ section { position: relative; }
 
 .chapter-year {
   font-family: var(--font-display);
-  font-size: clamp(80px, 12vw, 140px);
+  font-size: clamp(90px, 12vw, 150px);
   line-height: 0.9;
   color: var(--gold);
-  margin-bottom: 16px;
+  margin-bottom: 500px;
 }
 
 .chapter-tagline {
   font-family: var(--font-display);
-  font-size: clamp(20px, 2.5vw, 28px);
+  font-size: clamp(50px, 9vw, 65px);
   color: var(--white);
-  letter-spacing: 1px;
-  margin-bottom: 20px;
+  margin-bottom: -20px;
   text-transform: uppercase;
 }
 
 .chapter-desc {
-  font-size: 14px;
-  line-height: 1.8;
+  font-size: 16px;
+  /* line-height: 1.8; */
   color: var(--grey-light);
   font-weight: 300;
-  max-width: 800px;
-  margin-bottom: 32px;
+  /* margin-bottom: 32px; */
 }
 
 /* Stats pills */
@@ -571,14 +574,14 @@ section { position: relative; }
 }
 .stat-pill .s-val {
   font-family: var(--font-display);
-  font-size: 28px;
+  font-size: 56px;
   color: var(--gold);
   line-height: 1;
 }
 .stat-pill .s-val.red { color: var(--red); }
 .stat-pill .s-key {
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 12px;
   color: var(--grey);
   letter-spacing: 1.5px;
   text-transform: uppercase;
@@ -586,13 +589,13 @@ section { position: relative; }
 
 /* Race pills */
 .race-pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+  gap: 10px;
 }
 .race-pill {
-  width: 26px;
-  height: 26px;
+  width: 40px;
+  height: 40px;
   border-radius: 4px;
   display: flex;
   align-items: center;
@@ -645,7 +648,7 @@ section { position: relative; }
 
 .card-label {
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 12px;
   color: var(--red);
   letter-spacing: 3px;
   text-transform: uppercase;
@@ -654,6 +657,7 @@ section { position: relative; }
   align-items: center;
   gap: 8px;
 }
+
 .card-label::before {
   content: '';
   display: block;
@@ -664,13 +668,13 @@ section { position: relative; }
 
 .card-title {
   font-family: var(--font-display);
-  font-size: 22px;
+  font-size: clamp(50px, 9vw, 65px);
   color: var(--white);
   margin-bottom: 8px;
 }
 
 .card-text {
-  font-size: 13px;
+  font-size: 16px;
   line-height: 1.7;
   color: var(--grey-light);
   font-weight: 300;
@@ -863,14 +867,14 @@ button:hover svg {
 
 /* Quote */
 .quote-card {
-  border-left: 3px solid var(--gold);
+  /* border-left: 3px solid var(--gold); */
   padding: 20px 24px;
-  background: rgba(201,168,76,0.04);
-  border-radius: 0 6px 6px 0;
+  /* background: rgba(201,168,76,0.04); */
+  /* border-radius: 0 6px 6px 0; */
 }
 .quote-text {
   font-family: var(--font-body);
-  font-size: 15px;
+  font-size: 40px;
   font-style: italic;
   color: var(--gold-light);
   line-height: 1.7;
@@ -1527,6 +1531,41 @@ footer {
   position: absolute; inset: 0; z-index: 1; pointer-events: none;
   background: radial-gradient(ellipse at center, transparent 38%, rgba(0,0,0,0.88) 100%);
 }
+/* Foto lateral de la sequía: entra desde un costado y se funde hacia el centro */
+.drought-photo {
+  position: absolute; top: 0; height: 100%; width: 46vw;
+  z-index: 2; opacity: 0; pointer-events: none;
+  background-size: cover; background-position: center;
+  filter: grayscale(0.12) contrast(1.04) brightness(0.9);
+  transition: opacity 1.1s ease;
+  will-change: opacity, transform;
+}
+.drought-photo.show { opacity: 1; animation: droughtKenburns 7s ease-out forwards; }
+@keyframes droughtKenburns {
+  from { transform: scale(1.0); }
+  to   { transform: scale(1.09); }
+}
+.drought-photo.side-right {
+  right: 0; left: auto;
+  -webkit-mask-image: linear-gradient(to left, #000 34%, transparent 92%);
+          mask-image: linear-gradient(to left, #000 34%, transparent 92%);
+}
+.drought-photo.side-left {
+  left: 0; right: auto;
+  -webkit-mask-image: linear-gradient(to right, #000 34%, transparent 92%);
+          mask-image: linear-gradient(to right, #000 34%, transparent 92%);
+}
+@media (max-width: 900px) {
+  .drought-photo { width: 100%; filter: grayscale(0.2) contrast(1.04) brightness(0.55); }
+  .drought-photo.side-right {
+    -webkit-mask-image: linear-gradient(to left, #000 8%, transparent 82%);
+            mask-image: linear-gradient(to left, #000 8%, transparent 82%);
+  }
+  .drought-photo.side-left {
+    -webkit-mask-image: linear-gradient(to right, #000 8%, transparent 82%);
+            mask-image: linear-gradient(to right, #000 8%, transparent 82%);
+  }
+}
 .drought-inner { position: relative; z-index: 2; text-align: center; padding: 0 24px; }
 .drought-eyebrow {
   font-family: var(--font-mono); font-size: 11px; letter-spacing: 5px;
@@ -1595,8 +1634,8 @@ footer {
 }
 .blackout-count .zero b { color: var(--red); }
 .blackout-note {
-  font-family: var(--font-body); font-size: 13px; font-weight: 300;
-  color: var(--grey-light); max-width: 480px; line-height: 1.7;
+  font-family: var(--font-body); font-size: 17px; font-weight: 300;
+  color: var(--grey-light); max-width: 540px; line-height: 1.7;
 }
 .blackout-line {
   font-family: var(--font-display); font-size: clamp(44px, 8vw, 112px);
@@ -2278,7 +2317,7 @@ footer {
 
   <div class="hero-content">
     <h1 class="hero-title">
-      <div style="margin-left: 7px;">LOS AÑOS<br></div>
+      <div style="padding-left: 87px;">LOS AÑOS<br></div>
       <span class="gold">DORADOS</span>
     </h1>
 
@@ -2319,6 +2358,8 @@ footer {
     <div class="drought-track">
       <div class="drought-stage">
         <div class="drought-bg" id="droughtBg"></div>
+        <div class="drought-photo" id="droughtPhotoA"></div>
+        <div class="drought-photo" id="droughtPhotoB"></div>
         <div class="drought-vignette"></div>
 
         <div class="drought-inner">
@@ -2347,7 +2388,7 @@ footer {
             <span class="zero"><b>0</b>Ferrari</span>
           </div>
           <div class="blackout-note">20 años. Cuatro escuderías repartiéndose la gloria. Ningún título para Maranello.</div>
-          <div class="blackout-line">Hasta que llegó él.</div>
+          <div class="blackout-line">Hasta que llegó él</div>
         </div>
       </div>
     </div>
@@ -2362,13 +2403,13 @@ footer {
           <source src="assets/fantasmas.mp4" type="video/mp4">
         </video>
         <div class="ghosts-overlay"></div>
-        <div class="ghosts-eyebrow">1996 — 1999 · antes de ser leyenda</div>
+        <div class="ghosts-eyebrow">1996 — 1999</div>
 
         <div class="ghosts-lines" id="ghostsLines">
-          <p class="ghost-line" data-step="0">La presión de toda Italia.</p>
-          <p class="ghost-line" data-step="1">Un auto que no estaba a la altura.</p>
-          <p class="ghost-line" data-step="2">Accidentes, polémicas y fracturas.</p>
-          <p class="ghost-line ghost-final" data-step="3">Y de repente,<br><span>el año 2000.</span></p>
+          <p class="ghost-line" data-step="0">La presión de toda Italia</p>
+          <p class="ghost-line" data-step="1">Un auto que no estaba a la altura</p>
+          <p class="ghost-line" data-step="2">Accidentes, polémicas y fracturas</p>
+          <p class="ghost-line ghost-final" data-step="3">Y de repente,<br><span>el año 2000</span></p>
         </div>
       </div>
     </div>
@@ -2398,6 +2439,10 @@ footer {
 
       <div class="chapter-badge">● CAPÍTULO I</div>
       <div class="chapter-year">2000</div>
+    </div>
+
+    <div class="chapter-content">
+      <div class="empty"></div>
       <div class="chapter-tagline">El primer retorno</div>
       <p class="chapter-desc">
         Ferrari volvía a coronar a un piloto después de 21 años de sequía. 
@@ -2437,9 +2482,9 @@ footer {
           <!-- Se generan con JS -->
         </div>
       </div>
-    </div>
 
-    <div class="chapter-content">
+      <div class="empty"></div>
+
       <div class="content-card">
         <div class="card-label">EL MOMENTO</div>
         <div class="card-title">Suzuka, la revancha</div>
@@ -2490,6 +2535,8 @@ footer {
         </div>
       </div>
 
+      <div class="empty"></div>
+
       <div class="content-card">
         <div class="card-label">RIVALIDAD</div>
         <div class="card-title">Schumacher vs. Häkkinen</div>
@@ -2502,13 +2549,20 @@ footer {
         </div>
       </div>
 
+      <div class="empty"></div>
+
       <div class="content-card quote-card">
         <p class="quote-text">
-          "I can’t describe what happened then. You just can’t put something like that into words. I was so amazingly happy. I didn’t know what to do with all this good fortune. I suddenly felt almost trapped in my car, my Ferrari. It’s as though you are about to burst. It was just such a release! Such a relief!"
+          "No puedo describir lo que pasó en ese momento. Simplemente no se puede poner algo así en
+          palabras. Era inmensamente feliz. No sabía qué hacer con tanta buena fortuna. De repente
+          sentí que casi estaba atrapado dentro de mi auto, mi Ferrari. Era como si estuvieras a punto 
+          de estallar. ¡Fue una liberación enorme! ¡Un alivio inmenso!"
         </p>
         <div class="quote-attr">- MICHAEL SCHUMACHER</div>
         <!-- NOTA: reemplazar con cita real verificada -->
       </div>
+
+      <div class="empty"></div>
 
       <div class="content-card">
         <div class="card-label">PASO POR PASO</div>
@@ -2519,6 +2573,8 @@ footer {
         <div class="flourish-embed flourish-chart" data-src="visualisation/29371603"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/29371603/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
       </div>
 
+      <div class="empty"></div>
+
       <div class="content-card curiosity-box">
         <div class="c-icon">🔍</div>
         <p class="curiosity-text">
@@ -2527,6 +2583,9 @@ footer {
           el mundo lo veía mostrar una emoción tan cruda.
         </p>
       </div>
+
+      <div class="empty"></div>
+      
     </div>
   </article>
 
@@ -2547,6 +2606,12 @@ footer {
 
       <div class="chapter-badge">● CAPÍTULO II</div>
       <div class="chapter-year">2001</div>
+    </div>
+
+    <div class="chapter-content">
+      
+      <div class="empty"></div>
+
       <div class="chapter-tagline">La consolidación</div>
       <p class="chapter-desc">
         El F2001 fue una máquina diseñada para ganar. Schumacher 
@@ -2584,9 +2649,9 @@ footer {
       <div style="margin-bottom:16px; align-content: center;">
         <div class="race-pills" id="pills-2001"></div>
       </div>
-    </div>
 
-    <div class="chapter-content">
+      <div class="empty"></div>
+
       <div class="content-card">
         <div class="card-label">EL AUTO</div>
         <div class="card-title">Ferrari F2001: El monoplaza de la consolidación</div>
@@ -2600,6 +2665,8 @@ footer {
         <div class="media-placeholder">
           <iframe class="f2001" style="border-radius: 6px;" title="Ferrari F2001 - Tribute to Michael Schumacher" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/1597a6a00d164f5ca8852ad40e96a89b/embed?ui_theme=dark"> </iframe> </div>
       </div>
+
+      <div class="empty"></div>
 
       <div class="content-card">
         <div class="card-label">DOMINIO SOBRE EL COMPAÑERO</div>
@@ -2618,12 +2685,17 @@ footer {
         </div>
       </div>
 
+      <div class="empty"></div>
+
       <div class="content-card quote-card">
         <p class="quote-text">
-          "It is competition that grips me. I’ve got enough fire in my belly to keep driving me on."
+          "Es la competencia lo que me impulsa. Tengo suficiente fuego en las entrañas como para
+          seguir adelante."
         </p>
         <div class="quote-attr">- MICHAEL SCHUMACHER · 2001</div>
       </div>
+
+      <div class="empty"></div>
 
       <div class="content-card curiosity-box">
         <div class="c-icon">📊</div>
@@ -2634,13 +2706,14 @@ footer {
         </p>
       </div>
 
+      <div class="empty"></div>
+
       <!-- ESPACIO PARA VIDEO / FOTO ADICIONAL -->
       <!-- GALERÍA 2001: reemplazar los src por las fotos reales de la temporada.
            Esta zona se "traba" en pantalla mientras el scroll vertical
            desplaza las fotos hacia la derecha; al acabarse, el scroll
            vertical de la página continúa normalmente. -->
       <div class="gallery-2001-zone" id="gallery2001Zone">
-        <div class="card-label">GALERÍA</div>
         <div class="gallery-2001-stage">
           <div class="gallery-2001">
             <div class="gallery-2001-track" id="gallery2001Track">
@@ -2661,6 +2734,9 @@ footer {
           </div>
         </div>
       </div>
+
+      <div class="empty"></div>
+
     </div>
   </article>
 
@@ -2681,6 +2757,12 @@ footer {
 
       <div class="chapter-badge">● CAPÍTULO III</div>
       <div class="chapter-year">2002</div>
+    </div>
+
+    <div class="chapter-content">
+
+      <div class="empty"></div>
+
       <div class="chapter-tagline">El aplastamiento total</div>
       <p class="chapter-desc">
         La temporada más dominante de la historia reciente. 
@@ -2718,9 +2800,9 @@ footer {
       <div style="margin-bottom:16px">
         <div class="race-pills" id="pills-2002"></div>
       </div>
-    </div>
 
-    <div class="chapter-content">
+      <div class="empty"></div>
+
       <div class="content-card">
         <div class="card-label">EL RÉCORD</div>
         <div class="card-title">En el podio en cada carrera</div>
@@ -2736,6 +2818,8 @@ footer {
           <span style="opacity:0.5; font-size:9px">Chart de barras o pills animadas · Completar con D3 o Chart.js</span>
         </div>
       </div>
+
+      <div class="empty"></div>
 
       <div class="content-card">
         <div class="card-label">IGUALÓ A FANGIO</div>
@@ -2759,12 +2843,17 @@ footer {
         </div>
       </div>
 
+      <div class="empty"></div>
+
       <div class="content-card quote-card">
         <p class="quote-text">
-          "Then suddenly, all the pressure is off; you realise you’ve done it – it’s a fantastic moment, all your feelings come spilling out…I can’t really find the right words to describe it."
-        </p>
+          "Y de repente, toda la presión desaparece; te das cuenta de que lo lograste. Es un momento 
+          fantástico, todas tus emociones salen a la superficie... La verdad es que no encuentro las 
+          palabras adecuadas para describirlo."</p>
         <div class="quote-attr">— MICHAEL SCHUMACHER · 2002</div>
       </div>
+
+      <div class="empty"></div>
 
       <div class="content-card curiosity-box">
         <div class="c-icon">🏁</div>
@@ -2774,6 +2863,9 @@ footer {
           y una multa a Ferrari de $1M USD. La FIA luego prohibió las órdenes de equipo.
         </p>
       </div>
+
+      <div class="empty"></div>
+
     </div>
   </article>
 
@@ -2794,6 +2886,12 @@ footer {
 
       <div class="chapter-badge">● CAPÍTULO IV</div>
       <div class="chapter-year">2003</div>
+    </div>
+
+    <div class="chapter-content">
+
+      <div class="empty"></div>
+
       <div class="chapter-tagline">El récord histórico</div>
       <p class="chapter-desc">
         El año más peleado de la saga. Kimi Räikkönen y Juan Pablo Montoya 
@@ -2831,9 +2929,9 @@ footer {
       <div style="margin-bottom:16px">
         <div class="race-pills" id="pills-2003"></div>
       </div>
-    </div>
 
-    <div class="chapter-content">
+      <div class="empty"></div>
+
       <div class="content-card">
         <div class="card-label">LA BATALLA</div>
         <div class="card-title">Tensión hasta Suzuka</div>
@@ -2844,6 +2942,8 @@ footer {
         </p>
       </div>
 
+      <div class="empty"></div>
+
       <div class="content-card">
         <div class="card-label">EL RÉCORD</div>
         <div class="card-title">6 campeonatos: superó a Fangio</div>
@@ -2852,15 +2952,22 @@ footer {
           más campeonatos en la historia de la Fórmula 1, superando 
           la marca de 5 que compartía con Juan Manuel Fangio desde 2002.
         </p>
-        <div class="flourish-embed flourish-chart" data-src="visualisation/29386607"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/29386607/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
-      </div>
+        <div style="display: grid; place-items: center;">
+          <div class="flourish-embed flourish-chart" style="width: 60%;" data-src="visualisation/29386607"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/29386607/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
+        </div>
+        </div>
+
+      <div class="empty"></div>
 
       <div class="content-card quote-card">
         <p class="quote-text">
-          "I’m very happy but I’m also totally drained and exhausted. [...] At the moment, I haven’t got any feelings about the title, only for my team. I’m proud of everything we’ve achieved together."
-        </p>
+          "Estoy muy feliz, pero también completamente agotado y exhausto. 
+          [...] En este momento, no tengo sentimientos sobre el título en sí; lo único que siento es 
+          por mi equipo. Estoy orgulloso de todo lo que hemos logrado juntos."</p>
         <div class="quote-attr">— MICHAEL SCHUMACHER · 2003</div>
       </div>
+
+      <div class="empty"></div>
 
       <div class="content-card curiosity-box">
         <div class="c-icon">⚡</div>
@@ -2870,6 +2977,9 @@ footer {
           Eso hizo la temporada más competitiva. Aun así, Ferrari ganó.
         </p>
       </div>
+
+      <div class="empty"></div>
+      
     </div>
   </article>
 
@@ -2890,6 +3000,12 @@ footer {
 
       <div class="chapter-badge">● CAPÍTULO V</div>
       <div class="chapter-year">2004</div>
+    </div>
+
+    <div class="chapter-content">
+
+      <div class="empty"></div>
+
       <div class="chapter-tagline">La última coronación</div>
       <p class="chapter-desc">
         Un retorno al dominio de 2002. El F2004, considerado uno de los 
@@ -2927,9 +3043,9 @@ footer {
       <div style="margin-bottom:16px">
         <div class="race-pills" id="pills-2004"></div>
       </div>
-    </div>
 
-    <div class="chapter-content">
+      <div class="empty"></div>
+
       <div class="content-card">
         <div class="card-label">EL AUTO</div>
         <div class="card-title">Ferrari F2004: el monoplaza icónico</div>
@@ -2946,6 +3062,8 @@ footer {
           <span style="opacity:0.5; font-size:9px">Foto técnica o en pista · Reemplazar con &lt;img&gt;</span>
         </div>
       </div>
+
+      <div class="empty"></div>
 
       <!-- AUDIO DEL MOTOR V10 -->
       <div class="content-card">
@@ -2974,6 +3092,8 @@ footer {
         <audio id="motor-f2004" src="audio/f2004-v10.mp3"></audio>
       </div>
 
+      <div class="empty"></div>
+
       <div class="content-card">
         <div class="card-label">13 DE 18</div>
         <div class="card-title">Dominio en números</div>
@@ -2996,12 +3116,18 @@ footer {
         </div>
       </div>
 
-      <div class="content-card quote-card">
+      <div class="empty"></div>
+
+      <div>
         <p class="quote-text">
-          "You can’t always be the winner, but in my eyes, I also emerged a winner today by taking the world championship. [...] It means a lot to me to win my seventh title here in Spa-Francorchamps of all places and especially as this is Ferrari’s 700th GP. Quite remarkable really."
-        </p>
+          "No siempre se puede ser el ganador, pero, a mis ojos, hoy también salí vencedor al 
+          conquistar el campeonato del mundo. [...] Significa muchísimo para mí ganar mi séptimo 
+          título aquí, en Spa-Francorchamps, de todos los lugares posibles, y especialmente porque 
+          este es el Gran Premio número 700 de Ferrari. Realmente es algo extraordinario."</p>
         <div class="quote-attr">— MICHAEL SCHUMACHER · 2004</div>
       </div>
+
+      <div class="empty"></div>
 
       <div class="content-card curiosity-box">
         <div class="c-icon">🏎</div>
@@ -3011,6 +3137,9 @@ footer {
           El 2004 fue el canto del cisne de la era dorada.
         </p>
       </div>
+
+      <div class="empty"></div>
+
     </div>
   </article>
 
@@ -3471,6 +3600,57 @@ window.addEventListener('scroll', () => {
   const stripEl    = document.getElementById('droughtStrip');
   if (!track) return;
 
+  // ── Fotos de cada año de la sequía (crossfade + ken-burns) ──
+  // Un archivo por año: sequia-1 = 1979, sequia-2 = 1980, … sequia-21 = 1999.
+  // Solo importa el NOMBRE BASE; la extensión (jpg/png/…) se detecta sola.
+  const photoLayers = [
+    document.getElementById('droughtPhotoA'),
+    document.getElementById('droughtPhotoB')
+  ];
+  let photoFront = 1;                 // capa visible actual (arrancamos "vacío")
+  const photoNames = {};
+  const photoSideByYear = {};
+  champions.forEach(function (c, i) {
+    photoNames[c.year] = 'sequia-' + (i + 1);
+    photoSideByYear[c.year] = (i % 2 === 0) ? 'side-right' : 'side-left';
+  });
+  const EXTS = ['jpg', 'jpeg', 'png', 'webp', 'JPG', 'JPEG', 'PNG', 'WEBP'];
+  const photoSrc = {};
+
+  function setPhoto(year) {
+    if (!photoSrc[year]) return;      // si todavía no cargó, dejamos la que estaba
+    const incoming = photoLayers[photoFront ^ 1];
+    const outgoing = photoLayers[photoFront];
+    incoming.style.backgroundImage = 'url("' + photoSrc[year] + '")';
+    incoming.classList.remove('side-left', 'side-right');
+    incoming.classList.add(photoSideByYear[year] || 'side-right');
+    incoming.classList.remove('show');
+    void incoming.offsetWidth;        // reinicia el efecto (fundido + zoom) en cada año
+    incoming.classList.add('show');
+    outgoing.classList.remove('show');
+    photoFront ^= 1;
+  }
+
+  function tryLoad(year, candidates, i) {
+    if (i >= candidates.length) {
+      console.warn('[sequía] Falta la foto de ' + year + ' (assets/' + photoNames[year] + '.jpg/png/…)');
+      return;
+    }
+    const im = new Image();
+    im.onload = function () {
+      photoSrc[year] = candidates[i];
+      if (current >= 0 && champions[current] && champions[current].year === year) setPhoto(year);
+    };
+    im.onerror = function () { tryLoad(year, candidates, i + 1); };
+    im.src = candidates[i];
+  }
+
+  Object.keys(photoNames).forEach(function (y) {
+    const year = parseInt(y, 10);
+    const cands = EXTS.map(function (e) { return 'assets/' + photoNames[year] + '.' + e; });
+    tryLoad(year, cands, 0);
+  });
+
   // Construir la tira de datos (una celda por año)
   champions.forEach(c => {
     const cell = document.createElement('div');
@@ -3504,6 +3684,7 @@ window.addEventListener('scroll', () => {
       teamEl.textContent = c.team === 'Ferrari' ? 'FERRARI — CAMPEÓN' : c.team.toUpperCase() + ' — CAMPEÓN';
       teamEl.style.color = c.accent;
       bgEl.style.background = 'radial-gradient(ellipse at 50% 45%, ' + c.color + ' 0%, #060606 80%)';
+      setPhoto(c.year);
 
       if (phrases[c.year]) {
         phraseEl.textContent = phrases[c.year];
