@@ -478,6 +478,19 @@ section { position: relative; }
   padding-bottom: 800px;
 }
 
+.halfempty {
+  padding-bottom: 400px;
+}
+
+.grafico-container {
+  display: grid;
+  place-items: center;
+}
+
+.grafico-container .grafico {
+  width: 80%;
+}
+
 /* ─── STICKY YEAR CHAPTER ─── */
 .chapter {
   display: grid;
@@ -524,7 +537,7 @@ section { position: relative; }
   padding: 4px 12px;
   border-radius: 2px;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 3px;
   color: var(--white);
   margin-bottom: 16px;
@@ -601,7 +614,7 @@ section { position: relative; }
   align-items: center;
   justify-content: center;
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 700;
   cursor: default;
   transition: transform 0.2s;
@@ -703,7 +716,7 @@ section { position: relative; }
 /* Video container */
 .video-container {
   position: relative;
-  width: 100%;
+  width: 90%;
   margin: 0 auto;
   background-color: #000;
   overflow: hidden;
@@ -809,49 +822,55 @@ button:hover svg {
   margin: 0;
 }
 
-/* Galería 2001 — la zona se traba (sticky) y el scroll vertical mueve las
-   fotos en horizontal; al terminarse, el scroll de la página sigue normal.
-   (no toca .media-placeholder ni ninguna otra clase global) */
-.gallery-2001-zone {
+/* ==========================================================================
+   GALERÍAS HORIZONTALES MULTI-INSTANCIA (UNIVERSAL)
+   El scroll vertical mueve las fotos en horizontal de forma dinámica.
+   ========================================================================== */
+
+.gallery-zone {
   position: relative;
-  height: 300vh; /* fallback; se recalcula por JS según la cantidad de fotos */
+  height: 300vh; /* Fallback; se recalcula por JS según la cantidad de fotos */
   box-sizing: border-box;
 }
-.gallery-2001-stage {
+
+.gallery-stage {
   position: sticky;
   top: 0;
-  height: 100vh;
+  height: 80vh;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-#year-2001 .gallery-2001 {
-  display: block;
-  padding: 0;
+  /* CAMBIO CLAVE: Mudamos el overflow: hidden aquí para asegurarnos de que */
+  /* ninguna galería desborde la pantalla hacia los costados en ningún capítulo */
   overflow: hidden;
-  position: relative;
+  padding-top: 200px;
 }
-.gallery-2001-track {
+
+.gallery-track {
   display: flex;
   gap: 10px;
   height: 100%;
   will-change: transform;
   padding-right: 0 !important;
 }
-.gallery-2001-item {
-  flex: 0 0 85%;
+
+.gallery-item {
+  /* Mantiene las fotos ocupando el 85% del ancho de la pantalla */
+  flex: 0 0 85%; 
   height: 100%;
   border-radius: 6px;
   overflow: hidden;
   background: rgba(201,168,76,0.04);
 }
-.gallery-2001-item img {
+
+.gallery-item img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
-.gallery-2001-caption {
+
+.gallery-caption {
   position: absolute;
   bottom: 8px;
   right: 12px;
@@ -882,7 +901,7 @@ button:hover svg {
 }
 .quote-attr {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 12px;
   color: var(--grey);
   letter-spacing: 2px;
 }
@@ -987,25 +1006,6 @@ button:hover svg {
 .data-row .val { color: var(--gold); font-family: var(--font-mono); font-weight: 700; }
 .data-row .val.red { color: var(--red); }
 .data-row .val.white { color: var(--white); }
-
-/* Curiosity box */
-.curiosity-box {
-  background: rgba(201,168,76,0.04);
-  border: 1px solid rgba(201,168,76,0.15);
-  border-radius: 6px;
-  padding: 16px 20px;
-}
-.curiosity-box .c-icon {
-  font-size: 20px;
-  margin-bottom: 8px;
-}
-.curiosity-text {
-  font-size: 13px;
-  color: var(--grey-light);
-  line-height: 1.6;
-  font-weight: 300;
-}
-.curiosity-text strong { color: var(--gold); }
 
 /* ─── VIZ SECTION ─── */
 #visualizations {
@@ -2488,7 +2488,7 @@ footer {
       <div class="content-card">
         <div class="card-label">EL MOMENTO</div>
         <div class="card-title">Suzuka, la revancha</div>
-        <p class="card-text" style="padding-bottom: 15px;">
+        <p class="card-text" style="padding-bottom: 20px;">
           El Gran Premio de Japón fue el escenario de la consagración. 
           Schumacher cruzó la línea de meta y los mecánicos Ferrari 
           invadieron la pista. El último campeonato de pilotos Ferrari 
@@ -2537,20 +2537,6 @@ footer {
 
       <div class="empty"></div>
 
-      <div class="content-card">
-        <div class="card-label">RIVALIDAD</div>
-        <div class="card-title">Schumacher vs. Häkkinen</div>
-        <p class="card-text">
-          La pelea la ganó, con diferencia, el alemán.
-        </p>
-        <!-- ESPACIO PARA GRÁFICO COMPARATIVO DE PUNTOS -->
-        <div class="bar-chart" id="rivalry-chart-2000">
-          <div class="flourish-embed flourish-chart" data-src="visualisation/29370029"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/29370029/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
-        </div>
-      </div>
-
-      <div class="empty"></div>
-
       <div class="content-card quote-card">
         <p class="quote-text">
           "No puedo describir lo que pasó en ese momento. Simplemente no se puede poner algo así en
@@ -2570,21 +2556,38 @@ footer {
         <p class="card-text">
           Mika Häkkinen ganó los dos campeonatos anteriores con McLaren-Mercedes. En 2000, el duelo fue al límite: 2 puntos separaron a ambos pilotos en el inicio de temporada, pero Schumacher aceleró en la recta final.
         </p>
-        <div class="flourish-embed flourish-chart" data-src="visualisation/29371603"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/29371603/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
+        <div class="grafico-container">
+          <div class="flourish-embed flourish-chart grafico" data-src="visualisation/29371603"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/29371603/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
+        </div>
+        </div>
+
+      <div class="halfempty"></div>
+
+      <div class="gallery-zone">
+        <!-- Contenedor intermedio que se queda "fijo" en pantalla mientras scrolleas -->
+        <div class="gallery-stage">
+          
+          <!-- El track que contiene las fotos y se desplaza horizontalmente -->
+          <div class="gallery-track">
+            <div class="gallery-item">
+              <img src="https://db926pi9qb9rr.cloudfront.net/imgproxy/2400x,sThCMPxVa3Burtw9eay-MBhKu5R2UOEUMDF5LHeL4xP4=/https://storage-2.hrzg.de/michaelschumacher/public/racing-legend/2000/legend-2000-01.jpg?p1" alt="Foto 1 - 2000">
+            </div>
+            <div class="gallery-item">
+              <img src="https://db926pi9qb9rr.cloudfront.net/imgproxy/2400x,sALDOVkK5RSyd5_u3fkSicd8dzrxtnoj-IHyv4P19wIw=/https://storage-2.hrzg.de/michaelschumacher/public/racing-legend/2000/legend-2000-19.jpg?p1" alt="Foto 2 - 2000">
+            </div>
+            <div class="gallery-item">
+              <img src="https://db926pi9qb9rr.cloudfront.net/imgproxy/2400x,sI_-o1Thj0YaQqAJKWeG-2AYSp5ubiZe7ioSBz2d6P18=/https://storage-2.hrzg.de/michaelschumacher/public/racing-legend/2000/legend-2000-05.jpg?p1" alt="Foto 3 - 2000">
+            </div>
+            <div class="gallery-item">
+              <img src="https://db926pi9qb9rr.cloudfront.net/imgproxy/2400x,svjnUDuxbzRHCOW_JCI1FKzYBhtZSDjFPjP5pVtxBzMQ=/https://storage-2.hrzg.de/michaelschumacher/public/racing-legend/2000/legend-2000-03.jpg?p1" alt="Foto 4 - 2000">
+            </div>
+            <!-- Podés meter la cantidad de fotos que quieras, el JS calcula el largo solo -->
+          </div>
+        
+        </div>
       </div>
 
-      <div class="empty"></div>
-
-      <div class="content-card curiosity-box">
-        <div class="c-icon">🔍</div>
-        <p class="curiosity-text">
-          <strong>Dato curioso:</strong> Schumacher ganó el campeonato 2000 en la penúltima fecha, 
-          en Suzuka. Lloró en el coche antes de bajarse. Era la primera vez que 
-          el mundo lo veía mostrar una emoción tan cruda.
-        </p>
-      </div>
-
-      <div class="empty"></div>
+      <div class="halfempty"></div>
       
     </div>
   </article>
@@ -2655,7 +2658,7 @@ footer {
       <div class="content-card">
         <div class="card-label">EL AUTO</div>
         <div class="card-title">Ferrari F2001: El monoplaza de la consolidación</div>
-        <p class="card-text">
+        <p class="card-text" style="padding-bottom: 20px;">
           El F2001 fue desarrollado sobre la base del exitoso F1-2000. 
           Motor V10 650 CV, mejor aerodinámica y confiabilidad excepcional. 
           Rubenss Barrichello fue el compañero de Schumacher, 
@@ -2695,47 +2698,33 @@ footer {
         <div class="quote-attr">- MICHAEL SCHUMACHER · 2001</div>
       </div>
 
-      <div class="empty"></div>
+      <div class="halfempty"></div>
 
-      <div class="content-card curiosity-box">
-        <div class="c-icon">📊</div>
-        <p class="curiosity-text">
-          <strong>Dato:</strong> En 2001 Schumacher ganó el campeonato con cuatro fechas de anticipación, 
-          en el Gran Premio de Hungría. Por entonces ya era el piloto con más 
-          campeonatos en la historia activa de la F1.
-        </p>
-      </div>
-
-      <div class="empty"></div>
-
-      <!-- ESPACIO PARA VIDEO / FOTO ADICIONAL -->
-      <!-- GALERÍA 2001: reemplazar los src por las fotos reales de la temporada.
-           Esta zona se "traba" en pantalla mientras el scroll vertical
-           desplaza las fotos hacia la derecha; al acabarse, el scroll
-           vertical de la página continúa normalmente. -->
-      <div class="gallery-2001-zone" id="gallery2001Zone">
-        <div class="gallery-2001-stage">
-          <div class="gallery-2001">
-            <div class="gallery-2001-track" id="gallery2001Track">
-              <div class="gallery-2001-item">
-                <img src="assets/2001-galeria-1.jpg" alt="Schumacher 2001 - Foto 1" loading="lazy">
-              </div>
-              <div class="gallery-2001-item">
-                <img src="assets/2001-galeria-2.jpg" alt="Schumacher 2001 - Foto 2" loading="lazy">
-              </div>
-              <div class="gallery-2001-item">
-                <img src="assets/2001-galeria-3.jpg" alt="Schumacher 2001 - Foto 3" loading="lazy">
-              </div>
-              <div class="gallery-2001-item">
-                <img src="assets/2001-galeria-4.jpg" alt="Schumacher 2001 - Foto 4" loading="lazy">
-              </div>
+      <div class="gallery-zone">
+        <!-- Contenedor intermedio que se queda "fijo" en pantalla mientras scrolleas -->
+        <div class="gallery-stage">
+          
+          <!-- El track que contiene las fotos y se desplaza horizontalmente -->
+          <div class="gallery-track">
+            <div class="gallery-item">
+              <img src="https://db926pi9qb9rr.cloudfront.net/imgproxy/2400x,s1EDK2qBQkxwStPI1WU6t3zpq_6FgugKN6ELFtAyufyI=/https://storage-2.hrzg.de/michaelschumacher/public/racing-legend/2001/legend-2001-052.jpg?p1" alt="Foto 1 - 2000">
             </div>
-            <span class="gallery-2001-caption">GALERÍA 2001</span>
+            <div class="gallery-item">
+              <img src="https://db926pi9qb9rr.cloudfront.net/imgproxy/2400x,s_ZID_EA7vyi9_4pgyJTYfjnCoqfPohhdzLXP8-26TDk=/https://storage-2.hrzg.de/michaelschumacher/public/racing-legend/2001/legend-2001-049.jpg?p1" alt="Foto 2 - 2000">
+            </div>
+            <div class="gallery-item">
+              <img src="https://db926pi9qb9rr.cloudfront.net/imgproxy/2400x,s5C_c6oubPxU6SSsIVRObaMz5LBgDynpj3BcdZSe4w_U=/https://storage-2.hrzg.de/michaelschumacher/public/racing-legend/2001/legend-2001-035.jpg?p1" alt="Foto 3 - 2000">
+            </div>
+            <div class="gallery-item">
+              <img src="https://db926pi9qb9rr.cloudfront.net/imgproxy/2400x,sy1X5fn9R0yXl22Sg_0ONO4v4CryU7BKS3OHvFS4Ogbg=/https://storage-2.hrzg.de/michaelschumacher/public/racing-legend/2001/legend-2001-083.jpg?p1" alt="Foto 4 - 2000">
+            </div>
+            <!-- Podés meter la cantidad de fotos que quieras, el JS calcula el largo solo -->
           </div>
+        
         </div>
       </div>
 
-      <div class="empty"></div>
+      <div class="halfempty"></div>
 
     </div>
   </article>
@@ -2809,37 +2798,10 @@ footer {
         <p class="card-text">
           Schumacher terminó en los primeros tres puestos en las 17 fechas 
           del campeonato. Una hazaña sin precedentes en la era moderna. 
-          11 victorias, 5 segundos, 1 tercero: consistencia absoluta.
+          11 victorias, 5 segundos, 1 tercero: consistencia absoluta reflejada en sus puntos.
         </p>
-        <!-- ESPACIO PARA GRÁFICO DE PODIOS POR CARRERA -->
-        <div class="media-placeholder">
-          <span class="icon">📈</span>
-          <span>GRÁFICO: POSICIONES POR CARRERA 2002</span>
-          <span style="opacity:0.5; font-size:9px">Chart de barras o pills animadas · Completar con D3 o Chart.js</span>
-        </div>
-      </div>
-
-      <div class="empty"></div>
-
-      <div class="content-card">
-        <div class="card-label">IGUALÓ A FANGIO</div>
-        <div class="card-title">5 campeonatos del mundo</div>
-        <p class="card-text">
-          Con el título de 2002, Schumacher alcanzó a Juan Manuel Fangio 
-          como el piloto con más campeonatos en la historia de la F1. 
-          Los grandes títulos de la historia estaban ahora empatados.
-        </p>
-        <div class="bar-chart">
-          <div class="bar-row">
-            <span class="bar-label" style="font-size:10px;width:80px;text-align:left;color:var(--gold)">Schumacher</span>
-            <div class="bar-track"><div class="bar-fill" data-width="71"></div></div>
-            <span class="bar-val">5★</span>
-          </div>
-          <div class="bar-row">
-            <span class="bar-label" style="font-size:10px;width:80px;text-align:left">Fangio</span>
-            <div class="bar-track"><div class="bar-fill" data-width="71" style="background:linear-gradient(to right,#555,#888)"></div></div>
-            <span class="bar-val" style="color:var(--grey)">5★</span>
-          </div>
+        <div class="grafico-container">
+          <div class="flourish-embed flourish-chart grafico" data-src="visualisation/29370029"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/29370029/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
         </div>
       </div>
 
@@ -2853,18 +2815,33 @@ footer {
         <div class="quote-attr">— MICHAEL SCHUMACHER · 2002</div>
       </div>
 
-      <div class="empty"></div>
+      <div class="halfempty"></div>
 
-      <div class="content-card curiosity-box">
-        <div class="c-icon">🏁</div>
-        <p class="curiosity-text">
-          <strong>Controversia:</strong> En Austria 2002, Barrichello lideró y fue ordenado a ceder el paso 
-          a Schumacher en la última vuelta. Las órdenes de equipo generaron silbidos del público 
-          y una multa a Ferrari de $1M USD. La FIA luego prohibió las órdenes de equipo.
-        </p>
+      <div class="gallery-zone">
+        <!-- Contenedor intermedio que se queda "fijo" en pantalla mientras scrolleas -->
+        <div class="gallery-stage">
+          
+          <!-- El track que contiene las fotos y se desplaza horizontalmente -->
+          <div class="gallery-track">
+            <div class="gallery-item">
+              <img src="https://db926pi9qb9rr.cloudfront.net/imgproxy/2400x,sc48fSI2XSdquYxv6_Y8zLSTFJt1lbqKP1dWN5SRTvuk=/https://storage-2.hrzg.de/michaelschumacher/public/racing-legend/2002/legend-2002-02.jpg?p1" alt="Foto 1 - 2000">
+            </div>
+            <div class="gallery-item">
+              <img src="https://db926pi9qb9rr.cloudfront.net/imgproxy/2400x,shvWtTjL_mCiSquRI0fpG_dpkaNkHVg1rxb7tMh5Y5D0=/https://storage-2.hrzg.de/michaelschumacher/public/racing-legend/2002/legend-2002-04.jpg?p1" alt="Foto 2 - 2000">
+            </div>
+            <div class="gallery-item">
+              <img src="https://db926pi9qb9rr.cloudfront.net/imgproxy/2400x,sEMhyLVAOPJCIT9_a7ymmjOOgkshBZQg8vLMUzrRVRpA=/https://storage-2.hrzg.de/michaelschumacher/public/racing-legend/2002/legend-2002-18.jpg?p1" alt="Foto 3 - 2000">
+            </div>
+            <div class="gallery-item">
+              <img src="https://db926pi9qb9rr.cloudfront.net/imgproxy/2400x,sRxWQPdKrq0R6hKOFolXU_-eUtFEWnQ-lmX1sSBlVxFI=/https://storage-2.hrzg.de/michaelschumacher/public/racing-legend/2002/legend-2002-45.jpg?p1" alt="Foto 4 - 2000">
+            </div>
+            <!-- Podés meter la cantidad de fotos que quieras, el JS calcula el largo solo -->
+          </div>
+        
+        </div>
       </div>
 
-      <div class="empty"></div>
+      <div class="halfempty"></div>
 
     </div>
   </article>
@@ -2940,6 +2917,9 @@ footer {
           El campeonato se definió en la última carrera del año. 
           La tensión narrativa fue la más intensa del período 2000–2004.
         </p>
+        <div class="grafico-container">
+          <div class="flourish-embed flourish-bar-chart-race grafico" data-src="visualisation/29384278"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/29384278/thumbnail" width="100%" alt="bar-chart-race visualization" /></noscript></div>
+        </div>
       </div>
 
       <div class="empty"></div>
@@ -2952,8 +2932,8 @@ footer {
           más campeonatos en la historia de la Fórmula 1, superando 
           la marca de 5 que compartía con Juan Manuel Fangio desde 2002.
         </p>
-        <div style="display: grid; place-items: center;">
-          <div class="flourish-embed flourish-chart" style="width: 60%;" data-src="visualisation/29386607"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/29386607/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
+        <div class="grafico-container">
+          <div class="flourish-embed flourish-chart grafico" style="width: 60%;" data-src="visualisation/29386607"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/29386607/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
         </div>
         </div>
 
@@ -2967,18 +2947,33 @@ footer {
         <div class="quote-attr">— MICHAEL SCHUMACHER · 2003</div>
       </div>
 
-      <div class="empty"></div>
+      <div class="halfempty"></div>
 
-      <div class="content-card curiosity-box">
-        <div class="c-icon">⚡</div>
-        <p class="curiosity-text">
-          <strong>Dato:</strong> En 2003, la FIA modificó el sistema de puntuación, 
-          pasando a puntuar hasta el 8° lugar y reduciendo el peso de las victorias. 
-          Eso hizo la temporada más competitiva. Aun así, Ferrari ganó.
-        </p>
+      <div class="gallery-zone">
+        <!-- Contenedor intermedio que se queda "fijo" en pantalla mientras scrolleas -->
+        <div class="gallery-stage">
+          
+          <!-- El track que contiene las fotos y se desplaza horizontalmente -->
+          <div class="gallery-track">
+            <div class="gallery-item">
+              <img src="https://db926pi9qb9rr.cloudfront.net/imgproxy/2400x,sa0bY1Q4sSOWvnkn9uw7beVxT7X6pL8MMOaKDvNBW96Q=/https://storage-2.hrzg.de/michaelschumacher/public/racing-legend/2003/legend-2003-03.jpg?p1" alt="Foto 1 - 2000">
+            </div>
+            <div class="gallery-item">
+              <img src="https://db926pi9qb9rr.cloudfront.net/imgproxy/2400x,s93myFULDf-cjVvkKku45SA54F61_M7hwMlqUaGxTdFI=/https://storage-2.hrzg.de/michaelschumacher/public/racing-legend/2003/legend-2003-40.jpg?p1" alt="Foto 2 - 2000">
+            </div>
+            <div class="gallery-item">
+              <img src="https://db926pi9qb9rr.cloudfront.net/imgproxy/2400x,sO9Npx6ksFdi-Fo2mnD5yAVqnYjxrziwpYNGLtC7bMv8=/https://storage-2.hrzg.de/michaelschumacher/public/racing-legend/2003/legend-2003-55.jpg?p1" alt="Foto 3 - 2000">
+            </div>
+            <div class="gallery-item">
+              <img src="https://db926pi9qb9rr.cloudfront.net/imgproxy/2400x,s7vVPDpROZMbaEzIWEN6W1Xv2lMeTteYrJNg0QzTb2_I=/https://storage-2.hrzg.de/michaelschumacher/public/racing-legend/2003/legend-2003-59.jpg?p1" alt="Foto 4 - 2000">
+            </div>
+            <!-- Podés meter la cantidad de fotos que quieras, el JS calcula el largo solo -->
+          </div>
+        
+        </div>
       </div>
 
-      <div class="empty"></div>
+      <div class="halfempty"></div>
       
     </div>
   </article>
@@ -2988,7 +2983,7 @@ footer {
   <!-- ─── 2004 ─── -->
   <article class="chapter" id="year-2004">
     <div class="chapter-sticky">
-      <img class="sch-corner-photo" src="assets/sch-2004.png">
+      <img class="sch-corner-photo" src="assets/sch-2004.png" style="width: 89%;">
 
       <div class="starting-lights">
         <div class="light"></div>
@@ -3063,8 +3058,6 @@ footer {
         </div>
       </div>
 
-      <div class="empty"></div>
-
       <!-- AUDIO DEL MOTOR V10 -->
       <div class="content-card">
         <div class="card-label">SONIDO HISTÓRICO</div>
@@ -3127,16 +3120,29 @@ footer {
         <div class="quote-attr">— MICHAEL SCHUMACHER · 2004</div>
       </div>
 
-      <div class="empty"></div>
+      <div class="halfempty"></div>
 
-      <div class="content-card curiosity-box">
-        <div class="c-icon">🏎</div>
-        <p class="curiosity-text">
-          <strong>El final de una era:</strong> A partir de 2005 la FIA prohibió el cambio de neumáticos 
-          durante la carrera, una medida percibida como diseñada para frenar el dominio Ferrari. 
-          El 2004 fue el canto del cisne de la era dorada.
-        </p>
-      </div>
+      <div class="gallery-zone">
+        <!-- Contenedor intermedio que se queda "fijo" en pantalla mientras scrolleas -->
+        <div class="gallery-stage">
+          
+          <!-- El track que contiene las fotos y se desplaza horizontalmente -->
+          <div class="gallery-track">
+            <div class="gallery-item">
+              <img src="https://db926pi9qb9rr.cloudfront.net/imgproxy/2400x,srzYZ9iUrkfvswQNIAAFaE5AzGrT-tsltBAuZCltslo8=/https://storage-2.hrzg.de/michaelschumacher/public/racing-legend/2004/legend-2004-03.jpg?p1" alt="Foto 1 - 2000">
+            </div>
+            <div class="gallery-item">
+              <img src="https://db926pi9qb9rr.cloudfront.net/imgproxy/2400x,sFMcXwXWQ-q5zu3nm8DffN86VqFC5ZLAc_zs_rqMupzc=/https://storage-2.hrzg.de/michaelschumacher/public/racing-legend/2004/legend-2004-22.jpg?p1" alt="Foto 2 - 2000">
+            </div>
+            <div class="gallery-item">
+              <img src="https://db926pi9qb9rr.cloudfront.net/imgproxy/2400x,sEDP5DFfGSH7CXRflDiWyPco9ThH2McH_0TVI1xE5px8=/https://storage-2.hrzg.de/michaelschumacher/public/racing-legend/2004/legend-2004-39.jpg?p1" alt="Foto 3 - 2000">
+            </div>
+            <div class="gallery-item">
+              <img src="https://db926pi9qb9rr.cloudfront.net/imgproxy/2400x,sq5zEcy_HFG69858Lay65z-SVGUatScPpZZEI0pWI-No=/https://storage-2.hrzg.de/michaelschumacher/public/racing-legend/2004/legend-2004-691.jpg?p1" alt="Foto 4 - 2000">
+            </div>
+            <!-- Podés meter la cantidad de fotos que quieras, el JS calcula el largo solo -->
+          </div>
+        </div>
 
       <div class="empty"></div>
 
@@ -3836,30 +3842,59 @@ container.addEventListener('mouseleave', () => {
   }
 });
 
-// ─── GALERÍA 2001: EL SCROLL VERTICAL MUEVE LAS FOTOS EN HORIZONTAL ───
+// ─── GALERÍAS HORIZONTALES MULTI-INSTANCIA ───
 (function () {
-  const zone  = document.getElementById('gallery2001Zone');
-  const track = document.getElementById('gallery2001Track');
-  if (!zone || !track) return;
-  const items = Array.from(track.children);
-  if (items.length < 2) return;
+  // 1. Buscamos todas las zonas de galería en la página usando su clase
+  const zones = document.querySelectorAll('.gallery-zone');
+  if (zones.length === 0) return;
 
-  // Cuanta más fotos haya, más larga es la zona "trabada" (se recalcula solo)
-  zone.style.height = (100 + (items.length - 1) * 100) + 'vh';
+  const galleries = [];
 
-  function update() {
-    const rect = zone.getBoundingClientRect();
-    const total = zone.offsetHeight - window.innerHeight;
-    let p = total > 0 ? (-rect.top) / total : 0;
-    p = Math.max(0, Math.min(1, p));
+  // 2. Inicializamos cada galería por separado
+  zones.forEach(zone => {
+    // Buscamos el track que pertenece SÓLO a esta zona
+    const track = zone.querySelector('.gallery-track');
+    if (!track) return;
 
-    const maxTranslate = track.scrollWidth - track.clientWidth;
-    track.style.transform = `translateX(${-p * maxTranslate}px)`;
+    const items = Array.from(track.children);
+    if (items.length < 2) return;
+
+    // Calculamos la altura dinámica de esta zona según sus propias fotos
+    zone.style.height = (100 + (items.length - 1) * 100) + 'vh';
+
+    // Guardamos la referencia de ambos elementos para el scroll
+    galleries.push({ zone, track });
+  });
+
+  // 3. Función única que actualiza el movimiento de TODAS las galerías
+  function updateAll() {
+    const windowHeight = window.innerHeight;
+
+    galleries.forEach(({ zone, track }) => {
+      const rect = zone.getBoundingClientRect();
+      
+      // Optimizamos: si la galería ni siquiera está en pantalla, no calculamos nada
+      if (rect.bottom < 0 || rect.top > windowHeight) return;
+
+      const total = zone.offsetHeight - windowHeight;
+      let p = total > 0 ? (-rect.top) / total : 0;
+      p = Math.max(0, Math.min(1, p));
+
+      const maxTranslate = track.scrollWidth - track.clientWidth;
+      track.style.transform = `translateX(${-p * maxTranslate}px)`;
+    });
   }
 
-  window.addEventListener('scroll', update, { passive: true });
-  window.addEventListener('resize', update);
-  update();
+  // 4. Eventos globales limpios
+  window.addEventListener('scroll', updateAll, { passive: true });
+  window.addEventListener('resize', () => {
+    // Al redimensionar la pantalla, recalculamos primero las alturas si fuera necesario
+    // (en este caso al usar 'vh' el navegador lo maneja, pero forzamos el update de posición)
+    updateAll();
+  });
+  
+  // Ejecución inicial
+  updateAll();
 })();
 
 // ═══════════════ ACTO 2 · LOS FANTASMAS ANTES DE LA GLORIA ═══════════════
