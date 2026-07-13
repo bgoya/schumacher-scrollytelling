@@ -2400,6 +2400,522 @@ footer {
   .schumi-map-line strong { font-size: 24px; }
 }
 
+/* ─── DOMINIO EN PERSPECTIVA · SCROLLYTELLING ─── */
+#visualizations {
+  padding: 0;
+  overflow: visible;
+  isolation: isolate;
+  background: var(--black-mid);
+}
+
+#visualizations .dominio-scroll {
+  position: relative;
+  background:
+    radial-gradient(ellipse at 50% 18%, rgba(204,0,0,0.1), transparent 36%),
+    var(--black-mid);
+}
+
+#visualizations .dominio-sr-title {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+#visualizations .dominio-header-lock {
+  position: sticky;
+  top: 0;
+  z-index: 90;
+  height: 154px;
+  margin-bottom: -154px;
+  overflow: visible;
+  pointer-events: none;
+}
+
+#visualizations .dominio-header-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0;
+  background: linear-gradient(180deg, rgba(5,5,5,0.98) 0%, rgba(5,5,5,0.88) 58%, rgba(5,5,5,0));
+  will-change: opacity;
+}
+
+#visualizations .dominio-title {
+  position: absolute;
+  left: 50%;
+  z-index: 1;
+  margin: 0;
+  color: var(--white);
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0.015em;
+  line-height: 0.88;
+  text-align: center;
+  text-transform: uppercase;
+  text-shadow: 0 8px 28px rgba(0,0,0,0.56);
+  will-change: transform, opacity;
+}
+
+#visualizations .dominio-title-multiline {
+  top: 50vh;
+  width: min(92vw, 1000px);
+  font-size: clamp(64px, 10.6vw, 132px);
+  opacity: 0;
+  transform: translate3d(-50%, -50%, 0) translateY(24px) scale(0.97);
+}
+
+#visualizations .dominio-title-multiline > span {
+  display: block;
+}
+
+#visualizations .dominio-title-accent {
+  color: var(--gold);
+}
+
+#visualizations .dominio-kicker {
+  margin-bottom: 18px;
+  color: var(--red-bright);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 4px;
+  line-height: 1;
+}
+
+#visualizations .dominio-title-single {
+  top: clamp(96px, 12vh, 116px);
+  width: calc(100% - 48px);
+  color: var(--white);
+  font-size: clamp(34px, 3.8vw, 56px);
+  line-height: 1;
+  opacity: 0;
+  transform: translate3d(-50%, -50%, 0) translateY(12px) scale(0.985);
+  white-space: nowrap;
+}
+
+#visualizations .dominio-intro-scroll {
+  position: relative;
+  z-index: 3;
+  height: 760vh;
+}
+
+#visualizations .dominio-intro-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  min-height: 620px;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 42%, rgba(201,168,76,0.055), transparent 48%),
+    linear-gradient(180deg, rgba(18,18,18,0.99), rgba(8,8,8,0.995));
+}
+
+#visualizations .dominio-chart-panel {
+  position: absolute;
+  top: clamp(140px, 18vh, 164px);
+  bottom: clamp(22px, 4vh, 38px);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+#visualizations .dominio-chart-left {
+  left: clamp(24px, 5vw, 80px);
+  right: calc(50% + 14px);
+}
+
+#visualizations .dominio-chart-right {
+  right: clamp(24px, 5vw, 80px);
+  left: calc(50% + 14px);
+}
+
+#visualizations .dominio-chart-frame {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: clamp(12px, 1.4vw, 20px);
+  overflow: hidden;
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0) 42%),
+    rgba(10,10,10,0.98);
+  box-shadow: 0 26px 70px rgba(0,0,0,0.44);
+}
+
+#visualizations .dominio-chart-panel .flourish-embed,
+#visualizations .dominio-chart-panel .flourish-embed iframe {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-width: 100%;
+  border: 0;
+}
+
+#visualizations .dominio-chart-panel .flourish-embed {
+  overflow: hidden !important;
+}
+
+#visualizations .dominio-map-phase {
+  position: relative;
+  z-index: 6;
+  margin-top: -80vh;
+}
+
+#visualizations .dominio-map-card {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  border-right: 0;
+  border-left: 0;
+  border-radius: 0;
+  background: #050505;
+}
+
+#visualizations .dominio-map-phase .schumi-map-scroll {
+  height: 440vh;
+}
+
+#visualizations .dominio-map-phase .schumi-map-stage {
+  box-sizing: border-box;
+  min-height: 0;
+  height: 100vh;
+  height: 100svh;
+  padding: clamp(146px, 18vh, 166px) clamp(24px, 4vw, 64px) clamp(22px, 3vh, 32px);
+  gap: clamp(18px, 2vw, 28px);
+  background:
+    radial-gradient(ellipse at 78% 28%, rgba(204,0,0,0.1), transparent 42%),
+    #050505;
+}
+
+#visualizations .dominio-map-phase .schumi-map-info {
+  min-width: 0;
+}
+
+#visualizations .dominio-map-phase .schumi-map-wrap {
+  min-height: 0;
+  border-radius: 7px;
+}
+
+#visualizations .dominio-map-phase .schumi-map-svg {
+  min-height: 0;
+}
+
+@media (max-width: 900px) {
+  #visualizations {
+    padding: 0;
+  }
+
+  #visualizations .dominio-header-lock {
+    position: relative;
+    top: auto;
+    height: 96px;
+    margin-bottom: 0;
+  }
+
+  #visualizations .dominio-header-scrim {
+    opacity: 1;
+  }
+
+  #visualizations .dominio-title-multiline {
+    display: none;
+  }
+
+  #visualizations .dominio-title-single {
+    top: 66px;
+    width: calc(100% - 24px);
+    font-size: clamp(25px, 7vw, 36px);
+    opacity: 1;
+    transform: translate3d(-50%, -50%, 0);
+  }
+
+  #visualizations .dominio-intro-scroll {
+    height: auto;
+  }
+
+  #visualizations .dominio-intro-stage {
+    position: relative;
+    top: auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    height: auto;
+    min-height: 0;
+    padding: 16px 16px 26px;
+    overflow: visible;
+  }
+
+  #visualizations .dominio-chart-panel {
+    position: relative;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    width: 100%;
+    height: clamp(420px, 72svh, 560px);
+    min-height: 420px;
+    opacity: 1 !important;
+    transform: none !important;
+    will-change: auto;
+  }
+
+  #visualizations .dominio-chart-frame {
+    padding: 10px;
+  }
+
+  #visualizations .dominio-map-phase {
+    margin-top: 0;
+  }
+
+  #visualizations .dominio-map-phase .schumi-map-scroll {
+    height: 390vh;
+  }
+
+  #visualizations .dominio-map-phase .schumi-map-stage {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(260px, 1fr) auto;
+    gap: 14px;
+    padding: 72px 16px 18px;
+  }
+
+  #visualizations .dominio-map-phase .schumi-map-wrap,
+  #visualizations .dominio-map-phase .schumi-map-svg {
+    min-height: 0;
+  }
+
+  #visualizations .dominio-map-phase .schumi-map-info {
+    padding: 16px;
+  }
+
+  #visualizations .dominio-map-phase .schumi-map-title {
+    margin-bottom: 14px;
+    font-size: clamp(30px, 9vw, 40px);
+  }
+
+  #visualizations .dominio-map-phase .schumi-map-line {
+    padding-bottom: 9px;
+  }
+
+  #visualizations .dominio-map-phase .schumi-map-progress {
+    margin-top: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #visualizations .dominio-header-lock {
+    height: 132px;
+    margin-bottom: 0;
+  }
+
+  #visualizations .dominio-header-scrim {
+    opacity: 1 !important;
+    will-change: auto;
+  }
+
+  #visualizations .dominio-title-multiline {
+    display: none;
+  }
+
+  #visualizations .dominio-title-single {
+    top: 108px;
+    opacity: 1 !important;
+    transform: translate3d(-50%, -50%, 0) !important;
+    will-change: auto;
+  }
+
+  #visualizations .dominio-intro-scroll {
+    height: auto;
+  }
+
+  #visualizations .dominio-intro-stage {
+    position: relative;
+    top: auto;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    height: auto;
+    min-height: 0;
+    padding: 20px clamp(24px, 5vw, 80px) 32px;
+    overflow: visible;
+  }
+
+  #visualizations .dominio-chart-panel {
+    position: relative;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    width: 100%;
+    min-height: 500px;
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    will-change: auto;
+  }
+
+  #visualizations .dominio-map-phase {
+    margin-top: 0;
+  }
+
+  #visualizations .dominio-title,
+  #visualizations .dominio-chart-panel {
+    animation: none !important;
+  }
+}
+
+@media (max-width: 900px) and (prefers-reduced-motion: reduce) {
+  #visualizations .dominio-header-lock {
+    height: 96px;
+  }
+
+  #visualizations .dominio-title-single {
+    top: 66px;
+  }
+
+  #visualizations .dominio-intro-stage {
+    grid-template-columns: 1fr;
+    padding: 16px 16px 26px;
+  }
+
+  #visualizations .dominio-chart-panel {
+    min-height: 420px;
+    height: clamp(420px, 72svh, 560px);
+  }
+}
+
+@media (min-width: 901px) and (max-height: 760px) {
+  #visualizations .dominio-map-phase .schumi-map-stage {
+    padding: 140px clamp(24px, 4vw, 64px) 12px;
+    gap: 20px;
+  }
+
+  #visualizations .dominio-map-phase .schumi-map-info {
+    padding: 16px 18px;
+  }
+
+  #visualizations .dominio-map-phase .schumi-map-title {
+    margin-bottom: 12px;
+    font-size: 44px;
+  }
+
+  #visualizations .dominio-map-phase .schumi-map-line {
+    gap: 2px;
+    padding-bottom: 8px;
+  }
+
+  #visualizations .dominio-map-phase .schumi-map-line strong {
+    font-size: 28px;
+  }
+
+  #visualizations .dominio-map-phase .schumi-map-progress {
+    margin-top: 14px;
+  }
+}
+
+/* ─── GOAT · INTRO SCROLL ─── */
+#goat {
+  padding: 0;
+  overflow: visible;
+  isolation: isolate;
+}
+
+#goat .goat-bg {
+  z-index: 0;
+  pointer-events: none;
+}
+
+#goat .goat-intro-scroll {
+  position: relative;
+  z-index: 1;
+  height: 220vh;
+  height: 220svh;
+}
+
+#goat .goat-intro-stage {
+  position: sticky;
+  top: 0;
+  display: grid;
+  place-items: center;
+  height: 100vh;
+  height: 100svh;
+  min-height: 620px;
+  overflow: hidden;
+  background: var(--black);
+}
+
+#goat .goat-intro-header {
+  position: relative;
+  z-index: 1;
+  width: min(92vw, 1100px);
+  margin: 0;
+  text-align: center;
+  opacity: 1;
+  transform: none;
+  will-change: transform, opacity;
+}
+
+html.goat-scroll-ready #goat .goat-intro-header {
+  opacity: 0;
+  transform: translate3d(0, 32px, 0) scale(0.97);
+}
+
+#goat .goat-content {
+  position: relative;
+  z-index: 1;
+  padding: 0 clamp(24px, 5vw, 80px) 120px;
+}
+
+@media (max-width: 900px) {
+  #goat .goat-intro-scroll {
+    height: auto;
+  }
+
+  #goat .goat-intro-stage {
+    position: relative;
+    height: auto;
+    min-height: 55svh;
+    padding: 112px 24px 60px;
+  }
+
+  #goat .goat-intro-header,
+  html.goat-scroll-ready #goat .goat-intro-header {
+    opacity: 1 !important;
+    transform: none !important;
+    will-change: auto;
+  }
+
+  #goat .goat-content {
+    padding: 0 24px 80px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #goat .goat-intro-scroll {
+    height: auto;
+  }
+
+  #goat .goat-intro-stage {
+    position: relative;
+    height: auto;
+    min-height: 0;
+    padding: 128px clamp(24px, 5vw, 80px) 64px;
+  }
+
+  #goat .goat-intro-header,
+  html.goat-scroll-ready #goat .goat-intro-header {
+    opacity: 1 !important;
+    transform: none !important;
+    will-change: auto;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -3280,71 +3796,89 @@ footer {
 <!-- VISUALIZACIONES                                         -->
 <!-- ═══════════════════════════════════════════════════════ -->
 <section id="visualizations">
-  <div class="viz-transition fade-in" id="vizTransition">
-    <div class="viz-transition-inner">
-      <div class="viz-transition-kicker">DATOS Y VISUALIZACIONES</div>
-      <h2 class="viz-transition-title">El dominio <br><span>en perspectiva</span></h2>
-    </div>
-  </div>
+  <div class="dominio-scroll" id="dominioScroll">
+    <h2 class="dominio-sr-title">El dominio en perspectiva</h2>
 
-  <div class="viz-grid" style="max-width:1200px; margin:0 auto;">
-    
-    <!-- Victorias por año -->
-    <div class="viz-card fade-in chart-full-height chart-victorias">
-      <div class="flourish-embed flourish-chart" data-src="visualisation/29363176"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/29363176/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
-    </div>
-
-    <!-- Puntos por año -->
-    <div class="viz-card fade-in chart-full-height">
-      <div class="flourish-embed flourish-chart" data-src="visualisation/29383749"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/29383749/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
+    <div class="dominio-header-lock" aria-hidden="true">
+      <div class="dominio-header-scrim"></div>
+      <div class="dominio-title dominio-title-multiline">
+        <div class="dominio-kicker">Datos y visualizaciones</div>
+        <span>El dominio</span>
+        <span class="dominio-title-accent">en perspectiva</span>
+      </div>
+      <div class="dominio-title dominio-title-single">
+        <span>El dominio </span><span class="dominio-title-accent">en perspectiva</span>
+      </div>
     </div>
 
-    <!-- Mapa animado: reemplaza el embed de Flourish -->
-    <div class="viz-card full schumi-map-card">
-      <div class="schumi-map-scroll" id="schumiMapScroll">
-        <div class="schumi-map-stage">
-          <aside class="schumi-map-info is-intro">
-            <div class="schumi-map-kicker">GEOGRAFÍA DEL DOMINIO</div>
-            <div class="schumi-map-title">Dónde ganó <span>Schumacher</span></div>
-            <div class="schumi-map-copy">
-              <div class="schumi-map-line is-race-only">
-                <span>Gran Premio</span>
-                <strong id="mapGpName">Todos los grandes premios</strong>
-              </div>
-              <div class="schumi-map-line is-race-only">
-                <span>Circuito</span>
-                <strong id="mapCircuitName">2000-2004</strong>
-              </div>
-              <div class="schumi-map-line" id="mapCountryLine">
-                <span id="mapCountryLabel">País</span>
-                <strong id="mapCountryName">17 sedes</strong>
-              </div>
-              <div class="schumi-map-line">
-                <span id="mapWinsLabelText">Veces que la ganó</span>
-                <strong id="mapWinsText">50 victorias</strong>
-              </div>
-              <div class="schumi-map-line is-race-only">
-                <span>Años</span>
-                <strong id="mapYearsText">2000-2004</strong>
-              </div>
+    <div class="dominio-intro-scroll" id="dominioIntroScroll">
+      <div class="dominio-intro-stage">
+        <div class="dominio-chart-panel dominio-chart-left" id="dominioChartLeft">
+          <div class="dominio-chart-frame">
+            <div class="flourish-embed flourish-chart" data-src="visualisation/29363176">
+              <noscript><img src="https://public.flourish.studio/visualisation/29363176/thumbnail" width="100%" alt="Visualización de victorias por año" /></noscript>
             </div>
-            <div class="schumi-map-progress"><span id="mapProgressFill"></span></div>
-          </aside>
+          </div>
+        </div>
 
-          <div class="schumi-map-wrap">
-            <div class="schumi-map-counter"><b id="mapStepNow">0</b> / <span id="mapStepTotal">17</span> puntos revelados</div>
-            <svg class="schumi-map-svg" viewBox="0 0 1580 842" role="img" aria-label="Mapa animado con los Grandes Premios ganados por Michael Schumacher entre 2000 y 2004">
-              <g class="schumi-map-camera" id="schumiMapCamera">
-                <image class="schumi-map-image" href="assets/schumi_world_map_reference.png" x="0" y="0" width="1580" height="842" preserveAspectRatio="xMidYMid meet"></image>
-                <g id="schumiMapPoints"></g>
-              </g>
-            </svg>
-            <div class="schumi-map-caption">Mapa gris · puntos rojos = GP ganados</div>
+        <div class="dominio-chart-panel dominio-chart-right" id="dominioChartRight">
+          <div class="dominio-chart-frame">
+            <div class="flourish-embed flourish-chart" data-src="visualisation/29383749">
+              <noscript><img src="https://public.flourish.studio/visualisation/29383749/thumbnail" width="100%" alt="Visualización de puntos por año" /></noscript>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
+    <div class="dominio-map-phase">
+      <div class="dominio-map-card schumi-map-card">
+        <div class="schumi-map-scroll" id="schumiMapScroll">
+          <div class="schumi-map-stage">
+            <aside class="schumi-map-info is-intro">
+              <div class="schumi-map-kicker">Geografía del dominio</div>
+              <div class="schumi-map-title">Dónde ganó <span>Schumacher</span></div>
+              <div class="schumi-map-copy">
+                <div class="schumi-map-line is-race-only">
+                  <span>Gran Premio</span>
+                  <strong id="mapGpName">Todos los grandes premios</strong>
+                </div>
+                <div class="schumi-map-line is-race-only">
+                  <span>Circuito</span>
+                  <strong id="mapCircuitName">2000-2004</strong>
+                </div>
+                <div class="schumi-map-line" id="mapCountryLine">
+                  <span id="mapCountryLabel">País</span>
+                  <strong id="mapCountryName">17 sedes</strong>
+                </div>
+                <div class="schumi-map-line">
+                  <span id="mapWinsLabelText">Veces que la ganó</span>
+                  <strong id="mapWinsText">50 victorias</strong>
+                </div>
+                <div class="schumi-map-line is-race-only">
+                  <span>Años</span>
+                  <strong id="mapYearsText">2000-2004</strong>
+                </div>
+              </div>
+              <div class="schumi-map-progress"><span id="mapProgressFill"></span></div>
+            </aside>
+
+            <div class="schumi-map-wrap">
+              <div class="schumi-map-counter"><b id="mapStepNow">0</b> / <span id="mapStepTotal">17</span> puntos revelados</div>
+              <svg class="schumi-map-svg" viewBox="0 0 1580 842" role="img" aria-label="Mapa animado con los Grandes Premios ganados por Michael Schumacher entre 2000 y 2004">
+                <g class="schumi-map-camera" id="schumiMapCamera">
+                  <image class="schumi-map-image" href="assets/schumi_world_map_reference.png" x="0" y="0" width="1580" height="842" preserveAspectRatio="xMidYMid meet"></image>
+                  <g id="schumiMapPoints"></g>
+                </g>
+              </svg>
+              <div class="schumi-map-caption">Mapa gris · puntos rojos = GP ganados</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://public.flourish.studio/resources/embed.js"></script>
   </div>
 </section>
 
@@ -3354,59 +3888,64 @@ footer {
 <!-- GOAT                                                    -->
 <!-- ═══════════════════════════════════════════════════════ -->
 <section id="goat">
-  <div class="goat-bg"></div>
+  <div class="goat-bg" aria-hidden="true"></div>
 
-  <div class="goat-header fade-in">
-    <h2 class="goat-title">¿El <span class="accent">GOAT</span>?</h2>
-    <div class="goat-sub">EL LEGADO DE UNA DINASTÍA · 2000–2004</div>
-  </div>
-
-  <div class="goat-totals">
-    <div class="goat-stat fade-in">
-      <div class="gs-num">5</div>
-      <div class="gs-label">Campeonatos<br>consecutivos</div>
-    </div>
-    <div class="goat-stat fade-in">
-      <div class="gs-num">48</div>
-      <div class="gs-label">Victorias<br>en el período</div>
-    </div>
-    <div class="goat-stat fade-in">
-      <div class="gs-num">616</div>
-      <div class="gs-label">Puntos<br>acumulados</div>
-    </div>
-    <div class="goat-stat fade-in">
-      <div class="gs-num">7</div>
-      <div class="gs-label">Campeonatos<br>en carrera total</div>
+  <div class="goat-intro-scroll" id="goatIntroScroll">
+    <div class="goat-intro-stage">
+      <div class="goat-header goat-intro-header" id="goatIntroHeader">
+        <h2 class="goat-title">¿El <span class="accent">GOAT</span>?</h2>
+        <div class="goat-sub">EL LEGADO DE UNA DINASTÍA · 2000–2004</div>
+      </div>
     </div>
   </div>
 
-  <!-- Comparison -->
-  <div class="comparison-section fade-in">
-    <div class="flourish-embed flourish-chart" data-src="visualisation/29666739"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/29666739/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
-  </div>
+  <div class="goat-content">
+    <div class="goat-totals">
+      <div class="goat-stat fade-in">
+        <div class="gs-num">5</div>
+        <div class="gs-label">Campeonatos<br>consecutivos</div>
+      </div>
+      <div class="goat-stat fade-in">
+        <div class="gs-num">48</div>
+        <div class="gs-label">Victorias<br>en el período</div>
+      </div>
+      <div class="goat-stat fade-in">
+        <div class="gs-num">616</div>
+        <div class="gs-label">Puntos<br>acumulados</div>
+      </div>
+      <div class="goat-stat fade-in">
+        <div class="gs-num">7</div>
+        <div class="gs-label">Campeonatos<br>en carrera total</div>
+      </div>
+    </div>
 
-  <!-- Final question -->
-  <div class="final-question fade-in">
-    <div class="fq-rule"></div>
-    <p class="fq-text">
-      ¿Fue Schumacher el piloto más 
-      <span class="q">dominante</span> 
-      de la historia de la Fórmula 1?
-    </p>
-    <p class="fq-reflection">
-      Los números dicen que sí. Entre 2000 y 2004, Schumacher no solo ganó: 
-      <strong>redefinió lo que significaba ganar</strong>. Elevó los estándares 
-      del trabajo en fábrica, la preparación física, el análisis de datos y 
-      la cultura de victorias. Ferrari pasó de ser el equipo romántico 
-      que siempre prometía a ser la máquina perfecta que siempre entregaba.
-    </p>
-    <p class="fq-reflection">
-      El debate entre Schumacher, Hamilton, Senna y Fangio 
-      permanecerá abierto para siempre. Pero lo que está fuera de duda 
-      es que la era 2000–2004 representa <strong>el reinado más absoluto 
-      de la historia moderna de la Fórmula 1</strong>.
-    </p>
-    <div class="fq-rule"></div>
+    <!-- Comparison -->
+    <div class="comparison-section fade-in">
+      <div class="flourish-embed flourish-chart" data-src="visualisation/29666739"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/29666739/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
+    </div>
+
+    <!-- Final question -->
+    <div class="final-question fade-in">
+      <div class="fq-rule"></div>
+      <p class="fq-text">
+        ¿Fue Schumacher el piloto más 
+        <span class="q">dominante</span> 
+        de la historia de la Fórmula 1?
+      </p>
+      <p class="fq-reflection">
+        Los números dicen que sí. Entre 2000 y 2004, Schumacher no solo ganó: 
+        <strong>redefinió lo que significaba ganar</strong>. Elevó los estándares 
+        del trabajo en fábrica, la preparación física, el análisis de datos y 
+        la cultura de victorias. Ferrari pasó de ser el equipo romántico 
+        que siempre prometía a ser la máquina perfecta que siempre entregaba.
+      </p>
+      <p class="fq-reflection">
+        El debate entre Schumacher, Hamilton, Senna y Fangio 
+        permanecerá abierto para siempre. Pero lo que está fuera de duda 
+        es que la era 2000–2004 representa <strong>el reinado más absoluto 
+        de la historia moderna de la Fórmula 1</strong>.
+      </p>
+      <div class="fq-rule"></div>
     </div>
   </div>
 </section>
@@ -4257,6 +4796,186 @@ container.addEventListener('mouseleave', () => {
   requestAnimationFrame(update);
   window.setTimeout(update, 250);
   window.setTimeout(update, 800);
+})();
+
+// ═══════════════ DOMINIO EN PERSPECTIVA: ESCENARIO STICKY ═══════════════
+(function () {
+  const track = document.getElementById('dominioIntroScroll');
+  const multiTitle = document.querySelector('.dominio-title-multiline');
+  const singleTitle = document.querySelector('.dominio-title-single');
+  const headerScrim = document.querySelector('.dominio-header-scrim');
+  const leftChart = document.getElementById('dominioChartLeft');
+  const rightChart = document.getElementById('dominioChartRight');
+
+  if (!track || !multiTitle || !singleTitle || !headerScrim || !leftChart || !rightChart) return;
+
+  const desktopQuery = window.matchMedia('(min-width: 901px)');
+  const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let ticking = false;
+  let desktopWasActive = false;
+
+  const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+  const rangeProgress = (progress, start, end) => clamp((progress - start) / (end - start));
+  const easeOut = (value) => 1 - Math.pow(1 - value, 3);
+  const easeInOut = (value) => value < 0.5
+    ? 4 * value * value * value
+    : 1 - Math.pow(-2 * value + 2, 3) / 2;
+  const lerp = (start, end, amount) => start + (end - start) * amount;
+
+  function clearDesktopStyles() {
+    [multiTitle, singleTitle].forEach((title) => {
+      title.style.removeProperty('top');
+      title.style.removeProperty('opacity');
+      title.style.removeProperty('transform');
+    });
+
+    headerScrim.style.removeProperty('opacity');
+
+    [leftChart, rightChart].forEach((chart) => {
+      chart.style.removeProperty('opacity');
+      chart.style.removeProperty('transform');
+      chart.style.removeProperty('pointer-events');
+    });
+  }
+
+  function updateChart(chart, progress, enterStart, enterEnd, exitStart, exitEnd) {
+    const entry = easeOut(rangeProgress(progress, enterStart, enterEnd));
+    const exit = easeInOut(rangeProgress(progress, exitStart, exitEnd));
+    const opacity = entry * (1 - exit);
+    const distance = window.innerHeight * 1.08;
+    const translateY = (1 - entry) * distance - exit * distance;
+
+    chart.style.opacity = opacity.toFixed(3);
+    chart.style.transform = 'translate3d(0, ' + translateY.toFixed(2) + 'px, 0)';
+    chart.style.pointerEvents = opacity > 0.98 ? 'auto' : 'none';
+  }
+
+  function updateDominioScroll() {
+    if (!desktopQuery.matches || reducedMotionQuery.matches) {
+      if (desktopWasActive) clearDesktopStyles();
+      desktopWasActive = false;
+      return;
+    }
+
+    desktopWasActive = true;
+
+    const rect = track.getBoundingClientRect();
+    const total = Math.max(1, track.offsetHeight - window.innerHeight);
+    const progress = clamp(-rect.top / total);
+
+    const titleReveal = easeOut(rangeProgress(progress, 0, 0.14));
+    const titleCompact = easeInOut(rangeProgress(progress, 0.12, 0.29));
+    const multiExit = easeInOut(rangeProgress(progress, 0.18, 0.31));
+    const singleIn = easeInOut(rangeProgress(progress, 0.17, 0.3));
+    const titleTop = clamp(window.innerHeight * 0.12, 96, 116);
+    const multiTop = lerp(window.innerHeight * 0.5, titleTop, titleCompact);
+    const multiOpacity = titleReveal * (1 - multiExit);
+    const multiOffset = (1 - titleReveal) * 26 - titleCompact * 8;
+    const multiScale = 0.97 + titleReveal * 0.03 - titleCompact * 0.08;
+    const singleOffset = (1 - singleIn) * 14;
+    const singleScale = 0.985 + singleIn * 0.015;
+
+    multiTitle.style.top = multiTop.toFixed(2) + 'px';
+    multiTitle.style.opacity = multiOpacity.toFixed(3);
+    multiTitle.style.transform = 'translate3d(-50%, -50%, 0) translateY(' + multiOffset.toFixed(2) + 'px) scale(' + multiScale.toFixed(3) + ')';
+    singleTitle.style.top = titleTop.toFixed(2) + 'px';
+    singleTitle.style.opacity = singleIn.toFixed(3);
+    singleTitle.style.transform = 'translate3d(-50%, -50%, 0) translateY(' + singleOffset.toFixed(2) + 'px) scale(' + singleScale.toFixed(3) + ')';
+    headerScrim.style.opacity = easeInOut(rangeProgress(progress, 0.18, 0.31)).toFixed(3);
+
+    updateChart(leftChart, progress, 0.27, 0.44, 0.74, 0.97);
+    updateChart(rightChart, progress, 0.44, 0.61, 0.74, 0.97);
+  }
+
+  function requestUpdate() {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(() => {
+      updateDominioScroll();
+      ticking = false;
+    });
+  }
+
+  function listenToMedia(query) {
+    if (query.addEventListener) query.addEventListener('change', requestUpdate);
+    else query.addListener(requestUpdate);
+  }
+
+  window.addEventListener('scroll', requestUpdate, { passive: true });
+  window.addEventListener('resize', requestUpdate);
+  window.addEventListener('load', requestUpdate);
+  listenToMedia(desktopQuery);
+  listenToMedia(reducedMotionQuery);
+  requestUpdate();
+  window.setTimeout(requestUpdate, 250);
+  window.setTimeout(requestUpdate, 800);
+})();
+
+// ═══════════════ EL GOAT: APARICIÓN CONTROLADA POR SCROLL ═══════════════
+(function () {
+  const track = document.getElementById('goatIntroScroll');
+  const header = document.getElementById('goatIntroHeader');
+
+  if (!track || !header) return;
+
+  const desktopQuery = window.matchMedia('(min-width: 901px)');
+  const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const root = document.documentElement;
+  let ticking = false;
+  let desktopWasActive = false;
+
+  const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+  const rangeProgress = (progress, start, end) => clamp((progress - start) / (end - start));
+  const easeOut = (value) => 1 - Math.pow(1 - value, 3);
+
+  function clearDesktopStyles() {
+    header.style.removeProperty('opacity');
+    header.style.removeProperty('transform');
+  }
+
+  function updateGoatIntro() {
+    if (!desktopQuery.matches || reducedMotionQuery.matches) {
+      if (desktopWasActive) clearDesktopStyles();
+      desktopWasActive = false;
+      return;
+    }
+
+    desktopWasActive = true;
+
+    const rect = track.getBoundingClientRect();
+    const total = Math.max(1, track.offsetHeight - window.innerHeight);
+    const progress = clamp(-rect.top / total);
+    const reveal = easeOut(rangeProgress(progress, 0.08, 0.42));
+    const translateY = (1 - reveal) * 32;
+    const scale = 0.97 + reveal * 0.03;
+
+    header.style.opacity = reveal.toFixed(3);
+    header.style.transform = 'translate3d(0, ' + translateY.toFixed(2) + 'px, 0) scale(' + scale.toFixed(3) + ')';
+  }
+
+  function requestUpdate() {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(() => {
+      updateGoatIntro();
+      ticking = false;
+    });
+  }
+
+  function listenToMedia(query) {
+    if (query.addEventListener) query.addEventListener('change', requestUpdate);
+    else query.addListener(requestUpdate);
+  }
+
+  root.classList.add('goat-scroll-ready');
+  window.addEventListener('scroll', requestUpdate, { passive: true });
+  window.addEventListener('resize', requestUpdate);
+  window.addEventListener('load', requestUpdate);
+  listenToMedia(desktopQuery);
+  listenToMedia(reducedMotionQuery);
+  requestUpdate();
+  window.setTimeout(requestUpdate, 250);
+  window.setTimeout(requestUpdate, 800);
 })();
 
 </script>
