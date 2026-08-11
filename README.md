@@ -112,17 +112,6 @@ The assignment challenged us to develop a web-based visual narrative combining d
 * **Federico Del Cuadro**
 * **José Nicolás Rodríguez López**
 
-## Project Structure
-
-```text
-.
-├── index.html
-├── assets/
-│   ├── images/
-│   └── ...
-└── README.md
-```
-
 ## Live Demo
 
 The complete interactive experience is available at:
