@@ -4,7 +4,7 @@
 
 **[Live Project →](https://schumacher-ferrari.vercel.app/)**
 
-![Project Preview](assets/preview.png)
+![Project Preview](assets/thumbnail.png)
 
 ## About the Project
 
